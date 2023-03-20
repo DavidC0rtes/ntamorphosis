@@ -18,12 +18,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Runner {
-    private String mutationsDir;
+    private String mutationsDir, csvPath;
     private File model;
     private List<String> operators;
     private ExecutorService executorService;
     private HashMap<String, String[]> resultsTron;
     private HashMap<String, String[]> resultsBisim;
+    private BisimRunner bisimRunner;
 
     private static enum tronHeaders {
         mutant1, mutant2, template, passed_test, diff_locations, explored_diffs, elapsed_time
@@ -34,19 +35,22 @@ public class Runner {
         this.operators = operators;
         this.executorService = Executors.newSingleThreadExecutor();
     }
-    public Runner(File model, String mutationsDir) {
+    public Runner(File model, String mutationsDir, String csvPath) {
         this.model = model;
         this.mutationsDir = mutationsDir;
         this.executorService = Executors.newSingleThreadExecutor();
         resultsTron = new HashMap<>();
+        this.csvPath=csvPath;
         execUppaalMutants();
         execSimmDiff();
     }
     
-    public Runner(String dir) {
+    public Runner(String dir, String csvPath) {
         this.mutationsDir = dir;
         this.executorService = Executors.newFixedThreadPool(4);
         resultsTron = new HashMap<>();
+        bisimRunner = new BisimRunner();
+        this.csvPath=csvPath;
         prepareCSV();
         execSimmDiffRRSingles();
     }
@@ -125,6 +129,7 @@ public class Runner {
                 Runnable tronTask = (() -> {
                     resultsTron.putAll(processor.runSimmDiff(file1, file2, resultsTron));
                     resultsTron.putAll(processor.runSimmDiff(file2, file1, resultsTron));
+                    bisimRunner.scheduleJob(file1, file2);
                 });
 
                 wrapUp(tronTask);
@@ -147,20 +152,19 @@ public class Runner {
                 .setHeader(tronHeaders.class)
                 .build();
 
-        try (FileWriter writer = new FileWriter("traces-result.csv")){
+        try (FileWriter writer = new FileWriter(csvPath)){
             csvFormat.print(writer);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     private synchronized void printCSV() {
-        try (CSVPrinter printer = new CSVPrinter(new FileWriter("traces-result.csv", true), CSVFormat.DEFAULT)) {
+        try (CSVPrinter printer = new CSVPrinter(new FileWriter(csvPath, true), CSVFormat.DEFAULT)) {
 
             // Key: filename of mutant.
             // Value: String[]{path to model, tron result}
             for (var entry : resultsTron.entrySet()) {
                 Object[] result = entry.getValue();
-                System.out.println("### " + entry.getKey() + " " + Arrays.toString(result));
                 printer.printRecord(entry.getKey(), result[0], result[1], result[2],  result[3], result[4], result[5]);
             }
             printer.flush();
@@ -168,23 +172,5 @@ public class Runner {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private void execBisim() {
-        List<File> a = new ArrayList<>();
-        List<File> b = new ArrayList<>();
-
-        // Key: filename of mutant.
-        // Value: String[]{path to model, tron result}
-        resultsTron.forEach((key, value) -> {
-            if (value[1].equals("true")) {
-                a.add(new File(key));
-                b.add(new File(value[0]));
-            }
-        });
-
-        System.out.printf("Got %d mutant(s) to check against Bisimulation tool\n", b.size());
-        BisimRunner bisimRunner = new BisimRunner(a, b, false);
-        bisimRunner.start();
     }
 }

@@ -21,6 +21,9 @@ public class Main implements Runnable {
     @Option(names = {"-p","--path"}, description = "Output path", defaultValue = "src/main/resources/mutations")
     String outPath;
 
+    @Option(names = {"-csv","--csv-path"}, description = "Csv path", defaultValue = "traces-result.csv")
+    String csvPath;
+
     public static void main(String[] args) {
         int exitCode = new CommandLine(new Main()).execute(args);
         System.exit(exitCode);
@@ -32,9 +35,9 @@ public class Main implements Runnable {
 
         Runner runner;
         if (runAll) {
-            runner = new Runner(model, outPath);
+            runner = new Runner(model, outPath, csvPath);
         } else {
-            runner = new Runner(outPath);
+            runner = new Runner(outPath, csvPath);
         }
     }
 }

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="SlimNTAMorphosis:jar" />
+      <artifact name="NTAMorphosis:jar2" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
@@ -10,10 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3052ae77-99f8-41f7-9edd-d002b1bcda3a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/NTAMorphosis_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/NTAMorphosis_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/SlimNTAMorphosis_jar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results-bisim.csv" beforeDir="false" afterPath="$PROJECT_DIR$/results-bisim.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/traces-result.csv" beforeDir="false" afterPath="$PROJECT_DIR$/traces-result.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,32 +51,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "extract.method.default.visibility": "private",
-    "last_opened_file_path": "/home/david/Documents/NTAMorphosis/src/main/resources/GearControl",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.07818608",
-    "project.structure.side.proportion": "0.32230705",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/david/Downloads/Packages/log4j-slf4j-impl-2.13.1.jar&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.07818608&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.32230705&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/GearControl" />
     </key>
   </component>
   <component name="RunManager" selected="Application.RR">
+    <configuration name="Bisim" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
+      <module name="NTAMorphosis" />
+      <option name="PROGRAM_PARAMETERS" value="-p=src/main/resources/GC2 -csv=traces-result-bisim-gc2.csv" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
@@ -93,6 +104,7 @@
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.RR" />
+      <item itemvalue="Application.Bisim" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -120,7 +132,17 @@
       <workItem from="1678700813665" duration="10402000" />
       <workItem from="1678739831052" duration="10418000" />
       <workItem from="1678777348079" duration="19894000" />
-      <workItem from="1678876330565" duration="13270000" />
+      <workItem from="1678876330565" duration="15513000" />
+      <workItem from="1678958264754" duration="328000" />
+      <workItem from="1679051250100" duration="7628000" />
+      <workItem from="1679128091052" duration="436000" />
+      <workItem from="1679128538946" duration="370000" />
+      <workItem from="1679129029325" duration="60000" />
+      <workItem from="1679129096662" duration="185000" />
+      <workItem from="1679222265367" duration="643000" />
+      <workItem from="1679228906502" duration="9730000" />
+      <workItem from="1679270994288" duration="1488000" />
+      <workItem from="1679305101244" duration="5210000" />
     </task>
     <servers />
   </component>
@@ -134,6 +156,12 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java</url>
+          <line>21</line>
+          <properties field="outPath" class="org.neocities.daviddev.ntamorphosis.Main" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
