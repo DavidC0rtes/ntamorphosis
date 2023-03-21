@@ -1,6 +1,5 @@
 package org.neocities.daviddev.ntamorphosis.pairprocessing;
 
-import com.google.common.io.Files;
 import org.neocities.daviddev.simmdiff.entrypoint.Runner;
 
 import java.io.File;
@@ -30,7 +29,6 @@ public class XMLFileProcessor {
     }
 
     public HashMap<String, String[]> runSimmDiff(File file1, File file2, HashMap<String, String[]> resultsTron) {
-        System.out.printf("Simmdiff with %s and %s\n", file1.getName(), file2.getName());
         Runner runner1 = new Runner(file1, file2);
 
         runner1.parseModels();

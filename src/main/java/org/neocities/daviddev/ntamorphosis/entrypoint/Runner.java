@@ -3,7 +3,7 @@ package org.neocities.daviddev.ntamorphosis.entrypoint;
 import Parser.Main.EntryPoint;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
-import org.neocities.daviddev.bisimcheck.runners.BisimRunner;
+import org.neocities.daviddev.ntamorphosis.bisim.BisimRunner;
 import org.neocities.daviddev.ntamorphosis.pairprocessing.XMLFileProcessor;
 
 import java.io.File;
@@ -26,7 +26,7 @@ public class Runner {
     private HashMap<String, String[]> resultsBisim;
     private BisimRunner bisimRunner;
 
-    private static enum tronHeaders {
+    private enum tronHeaders {
         mutant1, mutant2, template, passed_test, diff_locations, explored_diffs, elapsed_time
     }
 
@@ -135,6 +135,7 @@ public class Runner {
                 wrapUp(tronTask);
             }
         }
+        bisimRunner.shutdownJobs();
         executorService.shutdown();
     }
     private void wrapUp(Runnable tronTask) {
