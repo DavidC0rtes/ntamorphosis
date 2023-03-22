@@ -1,0 +1,7 @@
+mutant1,mutant2,template,passed_test,diff_locations,explored_diffs,elapsed_time
+ccn2.xml,smiTemplateid2.xml,Template1,true,2,2,6
+smiTemplateid2.xml,ccn2.xml,Template1,false,3,1,168
+cxs1.xml,smiTemplateid2.xml,Template2,true,2,2,158
+smiTemplateid2.xml,cxs1.xml,Template3,false,3,1,156
+cxs2.xml,smiTemplateid2.xml,Template2,true,2,2,157
+smiTemplateid2.xml,cxs2.xml,Template1,false,3,3,165
