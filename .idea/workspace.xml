@@ -10,12 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3052ae77-99f8-41f7-9edd-d002b1bcda3a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/NTAMorphosis_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/NTAMorphosis_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/NTAMorphosis_jar2.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/results-bisim.csv" beforeDir="false" afterPath="$PROJECT_DIR$/results-bisim.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +59,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.07818608&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.32230705&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
@@ -146,7 +142,11 @@
       <workItem from="1679270994288" duration="1488000" />
       <workItem from="1679305101244" duration="8495000" />
       <workItem from="1679342678534" duration="6873000" />
-      <workItem from="1679387931523" duration="320000" />
+      <workItem from="1679387931523" duration="12647000" />
+      <workItem from="1679482470413" duration="16000" />
+      <workItem from="1679483607711" duration="21000" />
+      <workItem from="1679483650627" duration="63000" />
+      <workItem from="1679489780806" duration="106000" />
     </task>
     <servers />
   </component>
