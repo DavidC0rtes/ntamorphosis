@@ -18,7 +18,7 @@ public class Main implements Runnable {
     @Option(names = "-all", description = "Run with all mutation operators")
     boolean runAll;
 
-    @Option(names = {"-p","--path"}, description = "Output path", defaultValue = "src/main/resources/mutations")
+    @Option(names = {"-p","--path"}, description = "Path were the models are", defaultValue = "src/main/resources/mutations")
     String outPath;
 
     @Option(names = {"-csv","--csv-path"}, description = "Csv path", defaultValue = "traces-result.csv")

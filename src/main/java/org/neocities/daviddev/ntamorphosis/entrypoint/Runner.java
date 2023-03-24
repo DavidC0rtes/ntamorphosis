@@ -89,7 +89,7 @@ public class Runner {
                                 model,
                                 mutant.toFile()
                         );
-                        simRunner.parseModels();
+                        simRunner.parseModels(mutationsDir);
                         simRunner.parseTraces();
                         simRunner.simulateTraces();
                         resultsTron.putAll(simRunner.getTracesResult());
@@ -111,7 +111,7 @@ public class Runner {
     private void execSimmDiffRR() {
         XMLFileProcessor processor = new XMLFileProcessor();
         Runnable tronTask = (() ->
-                processor.processXmlFilePairs(mutationsDir, resultsTron)
+                processor.processXmlFilePairs(mutationsDir)
         );
         wrapUp(tronTask);
     }
@@ -127,8 +127,8 @@ public class Runner {
                 File file2 = xmlFiles[j];
                 XMLFileProcessor processor = new XMLFileProcessor();
                 Runnable tronTask = (() -> {
-                    resultsTron.putAll(processor.runSimmDiff(file1, file2, resultsTron));
-                    resultsTron.putAll(processor.runSimmDiff(file2, file1, resultsTron));
+                    resultsTron.putAll(processor.runSimmDiff(file1, file2, mutationsDir));
+                    resultsTron.putAll(processor.runSimmDiff(file2, file1, mutationsDir));
                     bisimRunner.scheduleJob(file1, file2);
                 });
 
