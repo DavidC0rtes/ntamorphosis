@@ -1,0 +1,4 @@
+input ;
+output _void(), _SpeedSet(), _ReqNewGear(), _drive(), hello(), _ReqSpeed(), _CloseClutch();
+precision 1000;
+timeout 151;

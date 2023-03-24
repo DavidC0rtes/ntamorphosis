@@ -1,0 +1,3 @@
+output hello();
+delay 150.0000;
+output _OpenClutch();

@@ -1,0 +1,6 @@
+output _ReqNewGear();
+output _void();
+output _ReqSpeed();
+output _SpeedSet();
+output _sport();
+output _ReqSet();

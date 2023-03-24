@@ -1,0 +1,5 @@
+output _ReqNewGear();
+output RqZeroTorque();
+output _OpenClutch();
+output _ClutchIsOpen();
+output _ReqNeu();

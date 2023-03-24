@@ -1,0 +1,4 @@
+output _ReqNewGear();
+output _void();
+output _ReqSpeed();
+output _SpeedSet();
