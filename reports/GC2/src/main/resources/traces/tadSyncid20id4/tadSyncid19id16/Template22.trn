@@ -1,7 +1,0 @@
-output _ReqNewGear();
-output RqZeroTorque();
-output hello();
-delay 150.0000;
-output _OpenClutch();
-output _ClutchIsOpen();
-output _ReqSet();

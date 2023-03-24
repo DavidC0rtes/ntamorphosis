@@ -1,4 +1,0 @@
-output _ReqNewGear();
-output RqZeroTorque();
-output _TorqueZero();
-output hello();

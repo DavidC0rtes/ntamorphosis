@@ -1,4 +1,0 @@
-output _ReqNewGear();
-output _void();
-output hello();
-output _ReqSet();

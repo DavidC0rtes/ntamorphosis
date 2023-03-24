@@ -1,4 +1,0 @@
-input ;
-output _void(), _SpeedSet(), _ReqNewGear(), _drive(), hello(), _ReqSpeed();
-precision 1000;
-timeout 1;

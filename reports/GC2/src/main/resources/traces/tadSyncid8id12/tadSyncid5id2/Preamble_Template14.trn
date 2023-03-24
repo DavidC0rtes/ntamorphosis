@@ -1,4 +1,0 @@
-input ;
-output _void(), _ReqNewGear(), hello(), _ReqSpeed(), _OpenClutch(), _CloseClutch();
-precision 1000;
-timeout 251;

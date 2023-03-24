@@ -1,4 +1,0 @@
-input ;
-output _void(), _ReqSet(), _ClutchIsOpen(), _ReqNewGear(), _ReqSpeed(), _OpenClutch();
-precision 1000;
-timeout 150;

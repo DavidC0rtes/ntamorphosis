@@ -11,7 +11,11 @@
   <component name="ChangeListManager">
     <list default="true" id="3052ae77-99f8-41f7-9edd-d002b1bcda3a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/results-bisim.csv" beforeDir="false" afterPath="$PROJECT_DIR$/reports/results-bisim.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/results-bisim.csv" beforeDir="false" afterPath="$PROJECT_DIR$/results-bisim.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,6 +151,9 @@
       <workItem from="1679483607711" duration="21000" />
       <workItem from="1679483650627" duration="63000" />
       <workItem from="1679489780806" duration="106000" />
+      <workItem from="1679502871014" duration="372000" />
+      <workItem from="1679593401638" duration="434000" />
+      <workItem from="1679593845891" duration="3494000" />
     </task>
     <servers />
   </component>

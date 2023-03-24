@@ -1,4 +1,0 @@
-input ;
-output _ClutchIsOpen(), _ReqTorque(), _ReqNewGear(), hello(), RqZeroTorque(), _OpenClutch(), _ReqNeu(), _GearNeu();
-precision 1000;
-timeout 251;

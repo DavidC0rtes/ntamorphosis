@@ -1,4 +1,0 @@
-input ;
-output _ReqNewGear(), _TorqueZero(), hello(), RqZeroTorque(), _ReqNeu(), _CloseClutch();
-precision 1000;
-timeout 1;

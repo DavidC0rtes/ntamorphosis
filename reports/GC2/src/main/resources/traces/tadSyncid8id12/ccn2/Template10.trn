@@ -1,8 +1,0 @@
-output _ReqNewGear();
-output RqZeroTorque();
-output _OpenClutch();
-output _ClutchIsOpen();
-output _ReqNeu();
-output _GearNeu();
-output _CloseClutch();
-output _ClutchIsClosed();

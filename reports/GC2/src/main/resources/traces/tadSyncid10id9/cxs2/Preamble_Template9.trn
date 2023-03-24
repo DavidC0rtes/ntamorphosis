@@ -1,4 +1,0 @@
-input ;
-output _ReqNewGear(), RqZeroTorque();
-precision 1000;
-timeout 250;

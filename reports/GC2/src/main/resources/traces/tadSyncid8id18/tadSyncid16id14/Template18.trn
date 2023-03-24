@@ -1,5 +1,0 @@
-output _ReqNewGear();
-output _void();
-output _ReqSpeed();
-output hello();
-output _ReqSet();
