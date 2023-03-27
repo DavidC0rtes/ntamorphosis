@@ -38,7 +38,7 @@ public class Runner {
     public Runner(File model, String mutationsDir, String csvPath) {
         this.model = model;
         this.mutationsDir = mutationsDir;
-        this.executorService = Executors.newSingleThreadExecutor();
+        this.executorService = Executors.newCachedThreadPool();
         resultsTron = new HashMap<>();
         this.csvPath=csvPath;
         execUppaalMutants();
@@ -47,7 +47,7 @@ public class Runner {
     
     public Runner(String dir, String csvPath) {
         this.mutationsDir = dir;
-        this.executorService = Executors.newFixedThreadPool(4);
+        this.executorService = Executors.newCachedThreadPool();
         resultsTron = new HashMap<>();
         bisimRunner = new BisimRunner();
         this.csvPath=csvPath;

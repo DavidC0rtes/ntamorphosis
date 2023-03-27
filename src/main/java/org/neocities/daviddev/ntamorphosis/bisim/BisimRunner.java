@@ -1,6 +1,5 @@
 package org.neocities.daviddev.ntamorphosis.bisim;
 
-import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
@@ -45,12 +44,6 @@ public class BisimRunner {
         }
     }
 
-    public void start() {
-        checkBisimilar();
-        writeResults();
-    }
-
-
     private void checkBisimilar() {
         for (File file : aFiles) {
             for (File mutant : bFiles ) {
@@ -63,15 +56,16 @@ public class BisimRunner {
         bisimService.shutdown();
     }
 
-    private void writeResults() {
-        try (FileWriter writer = new FileWriter("results-bisim.csv", true)){
-            CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT);
+    private synchronized void writeResults() {
+        try (CSVPrinter printer = new CSVPrinter(new FileWriter("results_bisim.csv", true), CSVFormat.DEFAULT)){
+
             for (var entry : results.asMap().entrySet()) {
                 Object[] row = entry.getValue().toArray();
                 printer.printRecord(entry.getKey(), row[0], row[1], row[2]);
             }
             printer.flush();
-
+            results.clear();
+            System.out.println("Wrote to results-bisim!");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

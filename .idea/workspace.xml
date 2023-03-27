@@ -11,11 +11,10 @@
   <component name="ChangeListManager">
     <list default="true" id="3052ae77-99f8-41f7-9edd-d002b1bcda3a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/results-bisim.csv" beforeDir="false" afterPath="$PROJECT_DIR$/reports/results-bisim.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/collision/results_bisim.csv" beforeDir="false" afterPath="$PROJECT_DIR$/reports/collision/results_bisim.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/results-bisim.csv" beforeDir="false" afterPath="$PROJECT_DIR$/results-bisim.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +81,7 @@
     <configuration name="Bisim" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
-      <option name="PROGRAM_PARAMETERS" value="-p=src/main/resources/GC2 -csv=traces-result-bisim-gc2.csv" />
+      <option name="PROGRAM_PARAMETERS" value="-p=src/main/resources/collision -csv=reports/collision/traces_collision.csv" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -154,6 +153,14 @@
       <workItem from="1679502871014" duration="372000" />
       <workItem from="1679593401638" duration="434000" />
       <workItem from="1679593845891" duration="3494000" />
+      <workItem from="1679761205272" duration="13000" />
+      <workItem from="1679771195507" duration="26000" />
+      <workItem from="1679837731777" duration="187000" />
+      <workItem from="1679837929590" duration="93000" />
+      <workItem from="1679838079459" duration="912000" />
+      <workItem from="1679839871101" duration="26000" />
+      <workItem from="1679848203075" duration="8724000" />
+      <workItem from="1679919343736" duration="730000" />
     </task>
     <servers />
   </component>
