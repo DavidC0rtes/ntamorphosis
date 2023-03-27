@@ -1,0 +1,4 @@
+mutant1,mutant2,template,passed_test,diff_locations,explored_diffs,elapsed_time
+tmi9.xml,tadSyncid4id1.xml,Template12,FAILED,28,1,22
+tadSyncid4id1.xml,tmi9.xml,Template5,TIMEOUT,24,24,10
+2
