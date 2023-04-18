@@ -10,11 +10,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3052ae77-99f8-41f7-9edd-d002b1bcda3a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/collision/results_bisim.csv" beforeDir="false" afterPath="$PROJECT_DIR$/reports/collision/results_bisim.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results-bisim.csv" beforeDir="false" afterPath="$PROJECT_DIR$/results-bisim.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/GC2/results-bisim.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/prueba/results_bisim.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/prueba/traces_collision.csv" beforeDir="false" afterPath="$PROJECT_DIR$/reports/prueba/traces_collision.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/redes/results_bisim.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/redes/traces-result.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/results-bisim.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/traces-result.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results-bisim.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/Preprocessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/Preprocessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/traces-gc2-partial.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/traces-result-backup.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,26 +58,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/david/Downloads/Packages/javafx-base-12.0.1-linux.jar&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.07818608&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.32230705&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "extract.method.default.visibility": "private",
+    "last_opened_file_path": "/home/david/Documents/UppaalMutants/out/artifacts/NTA_jar/MutationUppaal.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.07818608",
+    "project.structure.side.proportion": "0.32230705",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "XML"
+    ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.neocities.daviddev.ntamorphosis.bisim" />
@@ -77,7 +91,7 @@
       <recent name="$PROJECT_DIR$/src/main/resources/GearControl" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Bisim">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Bisim" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
@@ -89,7 +103,7 @@
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
-      <option name="PROGRAM_PARAMETERS" value="--model=$PROJECT_DIR$/../SimmDiffUppaal/src/main/resources/bridge.xml -all" />
+      <option name="PROGRAM_PARAMETERS" value="--model=src/main/resources/train-gate-controller.xml -all -p=src/main/resources/mutations" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -161,6 +175,32 @@
       <workItem from="1679839871101" duration="26000" />
       <workItem from="1679848203075" duration="8724000" />
       <workItem from="1679919343736" duration="730000" />
+      <workItem from="1680017485679" duration="47000" />
+      <workItem from="1680017600943" duration="61000" />
+      <workItem from="1680017742079" duration="183000" />
+      <workItem from="1680017983711" duration="238000" />
+      <workItem from="1680037930740" duration="4991000" />
+      <workItem from="1680091169862" duration="5776000" />
+      <workItem from="1680136840701" duration="6331000" />
+      <workItem from="1680430655804" duration="4002000" />
+      <workItem from="1680512807776" duration="1633000" />
+      <workItem from="1680529380729" duration="9365000" />
+      <workItem from="1680598274467" duration="130000" />
+      <workItem from="1680599180012" duration="25000" />
+      <workItem from="1680599303392" duration="189000" />
+      <workItem from="1680609597698" duration="4521000" />
+      <workItem from="1680621802123" duration="213000" />
+      <workItem from="1680689429775" duration="325000" />
+      <workItem from="1680698163025" duration="9000" />
+      <workItem from="1680701038538" duration="3181000" />
+      <workItem from="1680727068098" duration="341000" />
+      <workItem from="1680784749161" duration="31000" />
+      <workItem from="1680788435217" duration="5736000" />
+      <workItem from="1681124124677" duration="219000" />
+      <workItem from="1681549434012" duration="102000" />
+      <workItem from="1681585041524" duration="299000" />
+      <workItem from="1681672843905" duration="9998000" />
+      <workItem from="1681737602045" duration="14500000" />
     </task>
     <servers />
   </component>

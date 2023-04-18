@@ -5,14 +5,9 @@ import de.tudarmstadt.es.juppaal.NTA;
 import java.io.File;
 
 public class Preprocessor {
-    private final NTA nta;
-    private final File model;
-    public Preprocessor(File model) {
-        this.nta = new NTA(model.getAbsolutePath());
-        this.model = model;
-    }
 
-    public void addTauChannel() {
+    public void addTauChannel(File model) {
+        NTA nta = new NTA(model.getAbsolutePath());
         boolean hasTauChannel = false;
         for (String declaration : nta.getDeclarations().getStrings()) {
             if (declaration.contains("broadcast chan") && declaration.contains("tau")) {
@@ -25,5 +20,10 @@ public class Preprocessor {
             nta.getDeclarations().add("broadcast chan tau;");
             nta.writeModelToFile(model.getAbsolutePath());
         }
+    }
+
+    public File composeNTA(NTA nta) {
+        //todo do product, preserve syncs (how????)
+        return null;
     }
 }

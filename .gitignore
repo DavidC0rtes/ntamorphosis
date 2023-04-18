@@ -39,3 +39,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+**/traces
+tags
+tags.lock

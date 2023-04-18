@@ -44,8 +44,8 @@ public class Runner {
         resultsTron = new HashMap<>();
         this.csvPath=csvPath;
         this.csvBisim=csvBisim;
-        Preprocessor p = new Preprocessor(model);
-        p.addTauChannel();
+        Preprocessor p = new Preprocessor();
+        p.addTauChannel(model);
         execUppaalMutants();
         bisimRunner = new BisimRunner(csvBisim);
         prepareCSV();
