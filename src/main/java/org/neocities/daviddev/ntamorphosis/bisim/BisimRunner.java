@@ -15,28 +15,36 @@ import java.util.concurrent.*;
 public class BisimRunner {
     private Multimap<String, String> results;
     private final ExecutorService bisimService;
+    private final String pathToCsv;
     private List<File> aFiles, bFiles;
-    public BisimRunner(List<File> a, List<File> b) {
+/*    public BisimRunner(List<File> a, List<File> b) {
         bisimService = Executors.newCachedThreadPool();
         results = Multimaps.synchronizedMultimap(ArrayListMultimap.create());
         aFiles = a; bFiles = b;
-    }
+    }*/
 
-    public BisimRunner() {
+    public BisimRunner(String pathToCsv) {
         bisimService = Executors.newCachedThreadPool();
         results = Multimaps.synchronizedMultimap(ArrayListMultimap.create());
+        this.pathToCsv=pathToCsv;
     }
 
     public void scheduleJob(File a, File b) {
+        long start = System.currentTimeMillis();
         System.out.printf("Scheduling job for files %s and %s\n",a.getName(), b.getName());
         Future<Boolean> bisimFuture = bisimService.submit(
-                new Bisimulation(a.getAbsolutePath(), b.getAbsolutePath()));
-        long start = System.currentTimeMillis();
+                new Bisimulation(a.getAbsolutePath(), b.getAbsolutePath())
+        );
+
         try {
             boolean isBisimilar = bisimFuture.get();
-            results.put(b.getName(), a.getName().split("\\.")[0]);
-            results.put(b.getName(),isBisimilar ? "true" : "false");
-            results.put(b.getName(), String.valueOf(System.currentTimeMillis() - start));
+            String key = a.getName().split("\\.")[0];
+            if (key.length() == 0) {
+                throw new RuntimeException("Empty string as key name");
+            }
+            results.put(key, b.getName());
+            results.put(key,isBisimilar ? "true" : "false");
+            results.put(key, String.valueOf(System.currentTimeMillis() - start));
             writeResults();
             results.clear();
         } catch (InterruptedException | ExecutionException e) {
@@ -44,20 +52,8 @@ public class BisimRunner {
         }
     }
 
-    private void checkBisimilar() {
-        for (File file : aFiles) {
-            for (File mutant : bFiles ) {
-                String modelName = file.getName().split("\\.")[0];
-                if (mutant.getName().startsWith(modelName)) {
-                    scheduleJob(file, mutant);
-                }
-            }
-        }
-        bisimService.shutdown();
-    }
-
     private synchronized void writeResults() {
-        try (CSVPrinter printer = new CSVPrinter(new FileWriter("results_bisim.csv", true), CSVFormat.DEFAULT)){
+        try (CSVPrinter printer = new CSVPrinter(new FileWriter(pathToCsv, true), CSVFormat.DEFAULT)){
 
             for (var entry : results.asMap().entrySet()) {
                 Object[] row = entry.getValue().toArray();
@@ -65,7 +61,7 @@ public class BisimRunner {
             }
             printer.flush();
             results.clear();
-            System.out.println("Wrote to results-bisim!");
+            System.out.println("Wrote to "+pathToCsv);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

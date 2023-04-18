@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.neocities.daviddev.ntamorphosis.bisim.BisimRunner;
 import org.neocities.daviddev.ntamorphosis.pairprocessing.XMLFileProcessor;
+import org.neocities.daviddev.ntamorphosis.workers.Preprocessor;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Runner {
+    private final String csvBisim;
     private String mutationsDir, csvPath;
     private File model;
     private List<String> operators;
@@ -30,36 +32,41 @@ public class Runner {
         mutant1, mutant2, template, passed_test, diff_locations, explored_diffs, elapsed_time
     }
 
-    public Runner(File model, List<String> operators) {
+/*    public Runner(File model, List<String> operators) {
         this.model = model;
         this.operators = operators;
         this.executorService = Executors.newSingleThreadExecutor();
-    }
-    public Runner(File model, String mutationsDir, String csvPath) {
+    }*/
+    public Runner(File model, String mutationsDir, String csvPath, String csvBisim) {
         this.model = model;
         this.mutationsDir = mutationsDir;
         this.executorService = Executors.newCachedThreadPool();
         resultsTron = new HashMap<>();
         this.csvPath=csvPath;
+        this.csvBisim=csvBisim;
+        Preprocessor p = new Preprocessor(model);
+        p.addTauChannel();
         execUppaalMutants();
-        execSimmDiff();
+        bisimRunner = new BisimRunner(csvBisim);
+        prepareCSV();
+        execSimmDiffRRSingles();
     }
     
-    public Runner(String dir, String csvPath) {
+    public Runner(String dir, String csvPath, String csvBisim) {
         this.mutationsDir = dir;
         this.executorService = Executors.newCachedThreadPool();
         resultsTron = new HashMap<>();
-        bisimRunner = new BisimRunner();
         this.csvPath=csvPath;
+        this.csvBisim=csvBisim;
+        bisimRunner = new BisimRunner(csvBisim);
         prepareCSV();
         execSimmDiffRRSingles();
     }
 
     private void execUppaalMutants() {
-        String modelName = model.getName().split("\\.")[0];
         Runnable mutationTask = (() ->
                 EntryPoint.main(new String[]{
-                        "-m="+model, "-p="+mutationsDir+"/"+modelName, "-all"
+                        "-m="+model, "-p="+mutationsDir, "-all"
                 })
         );
         Future<?> foo = executorService.submit(mutationTask);
@@ -120,7 +127,7 @@ public class Runner {
 
         File directory = new File(mutationsDir);
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
-
+        System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
         for (int i = 0; i < Objects.requireNonNull(xmlFiles).length - 1; i++) {
             for (int j = i + 1; j < xmlFiles.length; j++) {
                 File file1 = xmlFiles[i];

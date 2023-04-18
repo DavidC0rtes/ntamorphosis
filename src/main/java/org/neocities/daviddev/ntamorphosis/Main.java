@@ -24,6 +24,9 @@ public class Main implements Runnable {
     @Option(names = {"-csv","--csv-path"}, description = "Csv path", defaultValue = "traces-result.csv")
     String csvPath;
 
+    @Option(names = {"-csvb","--csv-bisim"}, description = "Csv path for bisim report", defaultValue = "results_bisim.csv")
+    String csvBisim;
+
     public static void main(String[] args) {
         int exitCode = new CommandLine(new Main()).execute(args);
         System.exit(exitCode);
@@ -35,9 +38,9 @@ public class Main implements Runnable {
 
         Runner runner;
         if (runAll) {
-            runner = new Runner(model, outPath, csvPath);
+            runner = new Runner(model, outPath, csvPath, csvBisim);
         } else {
-            runner = new Runner(outPath, csvPath);
+            runner = new Runner(outPath, csvPath, csvBisim);
         }
     }
 }

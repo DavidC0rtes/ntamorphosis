@@ -30,7 +30,6 @@ public class XMLFileProcessor {
 
     public HashMap<String, String[]> runSimmDiff(File file1, File file2, String propDir) {
         Runner runner1 = new Runner(file1, file2);
-        System.out.println("Calling parseModels on "+ propDir);
         runner1.parseModels(propDir);
         runner1.parseTraces();
         runner1.simulateTraces();
