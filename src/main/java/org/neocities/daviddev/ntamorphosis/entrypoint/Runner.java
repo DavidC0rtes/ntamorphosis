@@ -138,7 +138,6 @@ public class Runner {
                     resultsTron.putAll(processor.runSimmDiff(file2, file1, mutationsDir));
                     bisimRunner.scheduleJob(file1, file2);
                 });
-
                 wrapUp(tronTask);
             }
         }

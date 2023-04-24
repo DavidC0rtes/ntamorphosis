@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<VBox spacing="20" xmlns:fx="http://javafx.com/fxml" fx:controller="org.neocities.daviddev.ntamorphosis.gui.Controller">
+    <HBox spacing="30" alignment="BASELINE_CENTER" fx:id="topBar">
+        <Label text="MUPPAAL" styleClass="top-label" fx:id="titleLabel"/>
+    </HBox>
+    <VBox alignment="BASELINE_CENTER" fx:id="secondBar">
+        <Label text="What do you need to run?" fx:id="choiceLabel"/>
+        <TilePane prefColumns="2" prefRows="1" fx:id="tilePane">
+            <ChoiceBox value="Generate mutants and mutation score">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Generate mutants and mutation score"/>
+                        <String fx:value="Only mutation score"/>
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+            <Button text="Next" fx:id="nextButton" onAction="#handleChoiceBtn"/>
+        </TilePane>
+    </VBox>
+</VBox>

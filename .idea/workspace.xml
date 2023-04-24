@@ -10,20 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3052ae77-99f8-41f7-9edd-d002b1bcda3a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimScheduler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/GC2/results-bisim.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/prueba/results_bisim.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/prueba/traces_collision.csv" beforeDir="false" afterPath="$PROJECT_DIR$/reports/prueba/traces_collision.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/redes/results_bisim.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/redes/traces-result.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/results-bisim.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/traces-result.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results-bisim.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results_bisim.csv" beforeDir="false" afterPath="$PROJECT_DIR$/results_bisim.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/Bisimulation.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/Preprocessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/Preprocessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/traces-gc2-partial.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/traces-result-backup.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +29,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="FxmlFile" />
         <option value="Class" />
       </list>
     </option>
@@ -65,7 +62,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "extract.method.default.visibility": "private",
-    "last_opened_file_path": "/home/david/Documents/UppaalMutants/out/artifacts/NTA_jar/MutationUppaal.jar",
+    "last_opened_file_path": "/home/david/Documents/NTAMorphosis/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -74,7 +71,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.07818608",
     "project.structure.side.proportion": "0.32230705",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -88,10 +85,15 @@
       <recent name="org.neocities.daviddev.ntamorphosis.bisim" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main/resources/GearControl" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/styles" />
+      <recent name="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/gui/templates" />
+    </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.gui">
     <configuration name="Bisim" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
@@ -116,8 +118,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="gui" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
+      <module name="NTAMorphosis" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.Main" />
+      <item itemvalue="Application.gui" />
       <item itemvalue="Application.RR" />
       <item itemvalue="Application.Bisim" />
     </list>
@@ -201,6 +211,14 @@
       <workItem from="1681585041524" duration="299000" />
       <workItem from="1681672843905" duration="9998000" />
       <workItem from="1681737602045" duration="14500000" />
+      <workItem from="1681894256948" duration="2372000" />
+      <workItem from="1681903250132" duration="1003000" />
+      <workItem from="1681919917078" duration="1940000" />
+      <workItem from="1681923622403" duration="16593000" />
+      <workItem from="1682184375695" duration="20000" />
+      <workItem from="1682184418119" duration="475000" />
+      <workItem from="1682185311508" duration="2359000" />
+      <workItem from="1682244861125" duration="10919000" />
     </task>
     <servers />
   </component>

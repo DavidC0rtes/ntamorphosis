@@ -9,19 +9,12 @@ import org.apache.commons.csv.CSVPrinter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.*;
 
 public class BisimRunner {
     private Multimap<String, String> results;
     private final ExecutorService bisimService;
     private final String pathToCsv;
-    private List<File> aFiles, bFiles;
-/*    public BisimRunner(List<File> a, List<File> b) {
-        bisimService = Executors.newCachedThreadPool();
-        results = Multimaps.synchronizedMultimap(ArrayListMultimap.create());
-        aFiles = a; bFiles = b;
-    }*/
 
     public BisimRunner(String pathToCsv) {
         bisimService = Executors.newCachedThreadPool();
@@ -33,7 +26,7 @@ public class BisimRunner {
         long start = System.currentTimeMillis();
         System.out.printf("Scheduling job for files %s and %s\n",a.getName(), b.getName());
         Future<Boolean> bisimFuture = bisimService.submit(
-                new Bisimulation(a.getAbsolutePath(), b.getAbsolutePath())
+                new BisimScheduler(a.getAbsolutePath(), b.getAbsolutePath())
         );
 
         try {

@@ -1,31 +1,31 @@
-package org.neocities.daviddev.ntamorphosis.workers;
+package org.neocities.daviddev.ntamorphosis.bisim;
 
 import de.tudarmstadt.es.juppaal.Automaton;
 import de.tudarmstadt.es.juppaal.NTA;
 import de.tudarmstadt.es.juppaal.SystemDeclaration;
+import eval.Bisimulation;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.Callable;
 
-public class Preprocessor {
+public class BisimScheduler implements Callable<Boolean> {
+    private final String pathToA, pathtoB;
 
-    public void addTauChannel(File model) {
-        NTA nta = new NTA(model.getAbsolutePath());
-        boolean hasTauChannel = false;
-        for (String declaration : nta.getDeclarations().getStrings()) {
-            if (declaration.contains("broadcast chan") && declaration.contains("tau")) {
-                hasTauChannel = true;
-                break;
-            }
-        }
+    public BisimScheduler(String a, String b) {
+        pathtoB = b; pathToA = a;
+    }
+    @Override
+    public Boolean call() {
+        File aFile = getNTAProduct(new File(pathToA));
+        File bFile = getNTAProduct(new File(pathtoB));
 
-        if (!hasTauChannel) {
-            nta.getDeclarations().add("broadcast chan tau;");
-            nta.writeModelToFile(model.getAbsolutePath());
-        }
+        System.out.printf("Calling bisimulation with %s and %s\n", aFile.getAbsolutePath(), bFile.getAbsolutePath());
+        new Bisimulation(aFile, bFile, 42).run();
+        return false;
     }
 
-    public File getNTAProduct(File model) {
+    private synchronized File getNTAProduct(File model) {
         NTA nta = new NTA(model.getAbsolutePath());
         List<Automaton> automatonList = nta.getAutomata();
         Automaton B = automatonList.get(0);
@@ -41,7 +41,6 @@ public class Preprocessor {
 
         File outFile = new File(model.getParent()+"/"+model.getName()+"_product.xml");
         nta.writeModelToFile(outFile.getAbsolutePath());
-
         return outFile;
     }
 }
