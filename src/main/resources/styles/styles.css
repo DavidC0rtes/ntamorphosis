@@ -1,0 +1,19 @@
+#topBar {
+    -fx-background-color: #222222;
+}
+
+.top-label {
+    -fx-text-fill: white;
+}
+
+#titleLabel {
+    -fx-font-size: 18px;
+}
+
+#choiceLabel {
+    -fx-font-size: 16px;
+}
+
+#tilePane {
+    -fx-padding: 10 50;
+}

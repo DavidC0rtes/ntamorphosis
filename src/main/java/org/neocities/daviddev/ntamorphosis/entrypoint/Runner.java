@@ -15,7 +15,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Runner {
@@ -47,9 +46,10 @@ public class Runner {
         Preprocessor p = new Preprocessor();
         p.addTauChannel(model);
         execUppaalMutants();
-        bisimRunner = new BisimRunner(csvBisim);
+        preProcess(p);
+        /*bisimRunner = new BisimRunner(csvBisim);
         prepareCSV();
-        execSimmDiffRRSingles();
+        execSimmDiffRRSingles();*/
     }
     
     public Runner(String dir, String csvPath, String csvBisim) {
@@ -59,8 +59,29 @@ public class Runner {
         this.csvPath=csvPath;
         this.csvBisim=csvBisim;
         bisimRunner = new BisimRunner(csvBisim);
+        Preprocessor p = new Preprocessor();
+        //execUppaalMutants();
+        preProcess(p);
         prepareCSV();
         execSimmDiffRRSingles();
+    }
+
+    public void preProcess(Preprocessor preprocessor) {
+        // Create directory for compositions
+        try {
+            Files.createDirectories(Path.of(mutationsDir + "/compositions"));
+        } catch (IOException e) {
+            System.err.println("Failed to create compositions directory "+ mutationsDir + "/compositions");
+            throw new RuntimeException(e);
+        }
+
+        File directory = new File(mutationsDir);
+        File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
+        assert xmlFiles != null;
+        System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
+        for (File mutant : xmlFiles) {
+            preprocessor.computeNTAProduct(mutant, mutationsDir + "/compositions");
+        }
     }
 
     private void execUppaalMutants() {
@@ -124,9 +145,9 @@ public class Runner {
     }
 
     private void execSimmDiffRRSingles() {
-
         File directory = new File(mutationsDir);
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
+        assert xmlFiles != null;
         System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
         for (int i = 0; i < Objects.requireNonNull(xmlFiles).length - 1; i++) {
             for (int j = i + 1; j < xmlFiles.length; j++) {
@@ -136,7 +157,12 @@ public class Runner {
                 Runnable tronTask = (() -> {
                     resultsTron.putAll(processor.runSimmDiff(file1, file2, mutationsDir));
                     resultsTron.putAll(processor.runSimmDiff(file2, file1, mutationsDir));
-                    bisimRunner.scheduleJob(file1, file2);
+
+                    // Get composed mutant path
+                    File product1 = new File(mutationsDir+"/compositions", file1.getName()+"_product.xml");
+                    File product2 = new File(mutationsDir+"/compositions", file2.getName()+"_product.xml");
+
+                    bisimRunner.scheduleJob(product1, product2);
                 });
                 wrapUp(tronTask);
             }

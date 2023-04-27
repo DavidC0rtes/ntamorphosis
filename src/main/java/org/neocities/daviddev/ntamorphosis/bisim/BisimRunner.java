@@ -26,7 +26,7 @@ public class BisimRunner {
         long start = System.currentTimeMillis();
         System.out.printf("Scheduling job for files %s and %s\n",a.getName(), b.getName());
         Future<Boolean> bisimFuture = bisimService.submit(
-                new BisimScheduler(a.getAbsolutePath(), b.getAbsolutePath())
+                new BisimScheduler(a, b)
         );
 
         try {

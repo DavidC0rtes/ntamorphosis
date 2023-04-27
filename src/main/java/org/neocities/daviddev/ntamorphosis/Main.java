@@ -10,7 +10,7 @@ import java.io.File;
 
 @Command(name = "NTAMorphosis", version = "0.1", mixinStandardHelpOptions = true)
 public class Main implements Runnable {
-    @Option(names = {"--model"}, description = "Path to model file")
+    @Option(names = {"-model"}, description = "Path to model file")
     File model;
 
     @Option(names = {"-op", "--operators"})
