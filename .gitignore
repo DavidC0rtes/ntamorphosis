@@ -2,7 +2,9 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-src/main/resources
+src/main/resources/**/.csv
+src/main/resources/**/*.xml
+src/main/resources/**/*.q
 *.trn
 out/
 reports/**/src

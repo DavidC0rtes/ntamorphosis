@@ -47,9 +47,9 @@ public class Runner {
         p.addTauChannel(model);
         execUppaalMutants();
         preProcess(p);
-        /*bisimRunner = new BisimRunner(csvBisim);
+        bisimRunner = new BisimRunner(csvBisim);
         prepareCSV();
-        execSimmDiffRRSingles();*/
+        execSimmDiffRRSingles();
     }
     
     public Runner(String dir, String csvPath, String csvBisim) {
@@ -60,7 +60,6 @@ public class Runner {
         this.csvBisim=csvBisim;
         bisimRunner = new BisimRunner(csvBisim);
         Preprocessor p = new Preprocessor();
-        //execUppaalMutants();
         preProcess(p);
         prepareCSV();
         execSimmDiffRRSingles();
