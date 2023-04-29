@@ -1,12 +1,13 @@
 Manifest-Version: 1.0
 Main-Class: org.neocities.daviddev.ntamorphosis.Main
-Class-Path: jdom-1.1.jar antlr4-runtime-4.10.1.jar log4j-1.2.17.jar java
- fx-base-12.0.1.jar slf4j-log4j12-1.7.26.jar j2objc-annotations-1.3.jar 
- ST4-4.3.3.jar org.abego.treelayout.core-1.0.3.jar SimmDiffUppaal.jar sl
- f4j-api-1.7.26.jar ImplThesis.jar slf4j-simple-1.7.26.jar icu4j-69.1.ja
- r antlr4-4.10.1.jar jsr305-3.0.2.jar MutationUppaal.jar antlr-runtime-3
- .5.3.jar listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar
-  picocli-4.7.1.jar commons-csv-1.10.0.jar javax.json-1.0.4.jar error_pr
- one_annotations-2.11.0.jar failureaccess-1.0.1.jar guava-31.1-jre.jar c
- hecker-qual-3.12.0.jar
+Class-Path: javafx-base-17-linux.jar javax.json-1.0.4.jar javafx-graphic
+ s-17.jar listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar
+  javafx-fxml-17.jar SimmDiffUppaal.jar javafx-controls-17.jar javafx-fx
+ ml-17-linux.jar antlr4-4.10.1.jar error_prone_annotations-2.11.0.jar an
+ tlr4-runtime-4.10.1.jar org.abego.treelayout.core-1.0.3.jar guava-31.1-
+ jre.jar checker-qual-3.12.0.jar jdom-1.1.jar dom4j-2.1.4.jar commons-cs
+ v-1.10.0.jar antlr-runtime-3.5.3.jar failureaccess-1.0.1.jar javafx-con
+ trols-17-linux.jar MutationUppaal.jar javafx-base-17.jar icu4j-69.1.jar
+  jsr305-3.0.2.jar j2objc-annotations-1.3.jar ImplThesis.jar picocli-4.7
+ .1.jar ST4-4.3.3.jar javafx-graphics-17-linux.jar
 
