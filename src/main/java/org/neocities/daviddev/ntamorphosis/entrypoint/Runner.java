@@ -30,12 +30,6 @@ public class Runner {
     private enum tronHeaders {
         mutant1, mutant2, template, passed_test, diff_locations, explored_diffs, elapsed_time
     }
-
-/*    public Runner(File model, List<String> operators) {
-        this.model = model;
-        this.operators = operators;
-        this.executorService = Executors.newSingleThreadExecutor();
-    }*/
     public Runner(File model, String mutationsDir, String csvPath, String csvBisim) {
         this.model = model;
         this.mutationsDir = mutationsDir;
@@ -158,8 +152,8 @@ public class Runner {
                     resultsTron.putAll(processor.runSimmDiff(file2, file1, mutationsDir));
 
                     // Get composed mutant path
-                    File product1 = new File(mutationsDir+"/compositions", file1.getName()+"_product.xml");
-                    File product2 = new File(mutationsDir+"/compositions", file2.getName()+"_product.xml");
+                    File product1 = new File(mutationsDir+"/compositions", file1.getName());
+                    File product2 = new File(mutationsDir+"/compositions", file2.getName());
 
                     bisimRunner.scheduleJob(product1, product2);
                 });

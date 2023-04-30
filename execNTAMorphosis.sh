@@ -7,9 +7,13 @@ if [ ! -f "$JAR_PATH" ]; then
   exit 1
 fi
 
+model="$1"
+csv="$2"
+csvb="$3"
+
 start_jar() {
   cd ~/Documents/NTAMorphosis
-  java  -jar "$JAR_PATH" -all -gui=false -model=src/main/resources/Collision-avoidance.xml -csv=reports/collision/traces_collision_product.csv -csvb=reports/collision/results_bisim_product.csv
+  java  -jar "$JAR_PATH" -all -gui=false -model=src/main/resources/$model.xml -csv=reports/$csv -csvb=reports/$csvb
 }
 
 start_jar

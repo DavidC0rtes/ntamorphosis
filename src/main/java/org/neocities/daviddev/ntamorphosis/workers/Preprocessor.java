@@ -60,12 +60,12 @@ public class Preprocessor {
             });
 
             // not interested about this kind of transitions.
-            B.getTransitions().removeIf(transition -> isLoopTransition(transition) && isTauTransition(transition));
+            B.getTransitions().removeIf(transition -> isTauTransition(transition));
             nta.getAutomata().clear();
             nta.addAutomaton(B);
             nta.setSystemDeclaration(new SystemDeclaration("system NTAProduct;"));
         }
-        File outFile = new File(path+"/"+model.getName()+"_product.xml");
+        File outFile = new File(path+"/"+model.getName());
         nta.writeModelToFile(outFile.getAbsolutePath());
 
         return outFile;
