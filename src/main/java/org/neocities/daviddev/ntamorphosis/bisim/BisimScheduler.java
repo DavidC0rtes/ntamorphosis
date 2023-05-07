@@ -9,9 +9,16 @@ import java.util.concurrent.Callable;
 
 public class BisimScheduler implements Callable<Boolean> {
     private final File aFile, bFile;
+    private final String template;
 
     public BisimScheduler(File a, File b) {
         aFile = a; bFile = b;
+        template = "";
+    }
+
+    public BisimScheduler(File a, File b, String template) {
+        aFile = a; bFile = b;
+        this.template = template;
     }
     @Override
     public Boolean call() {
@@ -22,7 +29,6 @@ public class BisimScheduler implements Callable<Boolean> {
         System.out.printf("%s has %d locations and %d transitions\n", aFile.getName(), nta1.getAutomata().get(0).getLocations().size(), nta1.getAutomata().get(0).getTransitions().size());
         System.out.printf("%s has %d locations and %d transitions\n", bFile.getName(), nta2.getAutomata().get(0).getLocations().size(), nta2.getAutomata().get(0).getTransitions().size());
 
-        new BisimulationTest1(aFile, bFile, 42).run();
-        return false;
+        return new BisimulationTest1(aFile, bFile, 42).run();
     }
 }

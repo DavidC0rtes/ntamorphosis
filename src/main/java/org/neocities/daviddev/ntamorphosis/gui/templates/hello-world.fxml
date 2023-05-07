@@ -13,7 +13,7 @@
     <VBox alignment="BASELINE_CENTER" fx:id="secondBar">
         <Label text="What do you need to run?" fx:id="choiceLabel"/>
         <TilePane prefColumns="2" prefRows="1" fx:id="tilePane">
-            <ChoiceBox value="Generate mutants and mutation score">
+            <ChoiceBox value="Generate mutants and mutation score" fx:id="choiceBox">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="Generate mutants and mutation score"/>
@@ -21,7 +21,26 @@
                     </FXCollections>
                 </items>
             </ChoiceBox>
-            <Button text="Next" fx:id="nextButton" onAction="#handleChoiceBtn"/>
+            <Button text="Next" fx:id="nextButton" onAction="#handleNextBtn"/>
         </TilePane>
     </VBox>
+    <Separator/>
+    <HBox spacing="10" fx:id="mutantsForm" alignment="BASELINE_CENTER" visible="false">
+        <Label text="Choose operators"/>
+        <ChoiceBox value="All operators" fx:id="operatorsChoiceBox" onAction="#handleOperatorsChoice">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="All operators"/>
+                    <String fx:value="NTA operators"/>
+                    <String fx:value="Classic operators"/>
+                    <String fx:value="Cherry pick"/>
+                </FXCollections>
+            </items>
+        </ChoiceBox>
+        <Label text="Where to save the mutants?" />
+        <Button text="Default directory" fx:id="selectDirectory" onAction="#handleDirChooseBtn"/>
+    </HBox>
+    <HBox spacing="10" fx:id="scoreForm" visible="false">
+
+    </HBox>
 </VBox>

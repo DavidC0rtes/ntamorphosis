@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.concurrent.*;
 
 public class BisimRunner {
-    private Multimap<String, String> results;
+    private final Multimap<String, String> results;
     private final ExecutorService bisimService;
     private final String pathToCsv;
 

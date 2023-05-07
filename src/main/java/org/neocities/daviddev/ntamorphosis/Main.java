@@ -10,6 +10,7 @@ import java.io.File;
 
 @Command(name = "NTAMorphosis", version = "0.1", mixinStandardHelpOptions = true)
 public class Main implements Runnable {
+    enum STRATEGIES { RANDOM, BIASED }
     @Option(names = {"-model"}, description = "Path to model file")
     File model;
 
@@ -30,6 +31,8 @@ public class Main implements Runnable {
 
     @Option(names={"-gui"}, description = "Use gui", defaultValue = "true")
     boolean gui;
+    @Option(names = "-how", description = "How to generate traces, one of: ${COMPLETION-CANDIDATES}", defaultValue = "biased")
+    STRATEGIES strategy;
 
     public static void main(String[] args) {
         int exitCode = new CommandLine(new Main()).execute(args);
@@ -40,14 +43,13 @@ public class Main implements Runnable {
     public void run() {
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
 
-        Runner runner;
         if (gui) {
             new Invoker();
         }
         else if (runAll) {
-            runner = new Runner(model, outPath, csvPath, csvBisim);
+            new Runner(model, outPath, csvPath, csvBisim, strategy.toString());
         } else {
-            runner = new Runner(outPath, csvPath, csvBisim);
+            new Runner(outPath, csvPath, csvBisim, strategy.toString());
         }
     }
 }

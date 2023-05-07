@@ -30,9 +30,9 @@ public class Runner {
     private enum tronHeaders {
         mutant1, mutant2, template, passed_test, diff_locations, explored_diffs, elapsed_time
     }
-    public Runner(File model, String mutationsDir, String csvPath, String csvBisim) {
+    public Runner(File model, String mutationsDir, String csvPath, String csvBisim, String strategy) {
         this.model = model;
-        this.mutationsDir = mutationsDir;
+        this.mutationsDir = mutationsDir+System.currentTimeMillis();
         this.executorService = Executors.newCachedThreadPool();
         resultsTron = new HashMap<>();
         this.csvPath=csvPath;
@@ -43,20 +43,20 @@ public class Runner {
         preProcess(p);
         bisimRunner = new BisimRunner(csvBisim);
         prepareCSV();
-        execSimmDiffRRSingles();
+        execSimmDiffRRSingles(strategy);
     }
     
-    public Runner(String dir, String csvPath, String csvBisim) {
+    public Runner(String dir, String csvPath, String csvBisim, String strategy) {
         this.mutationsDir = dir;
         this.executorService = Executors.newCachedThreadPool();
         resultsTron = new HashMap<>();
         this.csvPath=csvPath;
         this.csvBisim=csvBisim;
         bisimRunner = new BisimRunner(csvBisim);
-        Preprocessor p = new Preprocessor();
-        preProcess(p);
+//        Preprocessor p = new Preprocessor();
+//        preProcess(p);
         prepareCSV();
-        execSimmDiffRRSingles();
+        execSimmDiffRRSingles(strategy);
     }
 
     public void preProcess(Preprocessor preprocessor) {
@@ -92,52 +92,7 @@ public class Runner {
         }
     }
 
-    /**
-     * Executes SimmDiffUppaal with every generated mutant and its model, keeps a record
-     * of mutants that failed the tron test.
-     */
-    private void execSimmDiff() {
-        String modelName = model.getName().split("\\.")[0];
-        Path dir = Paths.get(mutationsDir+"/"+modelName);
-        Runnable tronTask = (() ->
-        {
-            try (Stream<Path> entries = Files.walk(dir, 1)){
-                entries.forEach(mutant -> {
-                    if (Files.isRegularFile(mutant) && !mutant.endsWith(".csv")) {
-
-                        //System.out.printf("Executing with mutant %s and model %s\n", mutant, model.getName());
-                        org.neocities.daviddev.simmdiff.entrypoint.Runner simRunner = new org.neocities.daviddev.simmdiff.entrypoint.Runner(
-                                model,
-                                mutant.toFile()
-                        );
-                        simRunner.parseModels(mutationsDir);
-                        simRunner.parseTraces();
-                        simRunner.simulateTraces();
-                        resultsTron.putAll(simRunner.getTracesResult());
-                    }
-                });
-            } catch (IOException e) {
-                System.err.println("working with model "+modelName);
-                throw new RuntimeException(e);
-            }
-        }
-        );
-        wrapUp(tronTask);
-    }
-
-     /**
-     * Executes SimmDiffUppaal with every generated mutant and its model, keeps a record
-     * of mutants that failed the tron test.
-     */
-    private void execSimmDiffRR() {
-        XMLFileProcessor processor = new XMLFileProcessor();
-        Runnable tronTask = (() ->
-                processor.processXmlFilePairs(mutationsDir)
-        );
-        wrapUp(tronTask);
-    }
-
-    private void execSimmDiffRRSingles() {
+    private void execSimmDiffRRSingles(String strategy) {
         File directory = new File(mutationsDir);
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
         assert xmlFiles != null;
@@ -146,7 +101,7 @@ public class Runner {
             for (int j = i + 1; j < xmlFiles.length; j++) {
                 File file1 = xmlFiles[i];
                 File file2 = xmlFiles[j];
-                XMLFileProcessor processor = new XMLFileProcessor();
+                XMLFileProcessor processor = new XMLFileProcessor(strategy);
                 Runnable tronTask = (() -> {
                     resultsTron.putAll(processor.runSimmDiff(file1, file2, mutationsDir));
                     resultsTron.putAll(processor.runSimmDiff(file2, file1, mutationsDir));
@@ -155,7 +110,7 @@ public class Runner {
                     File product1 = new File(mutationsDir+"/compositions", file1.getName());
                     File product2 = new File(mutationsDir+"/compositions", file2.getName());
 
-                    bisimRunner.scheduleJob(product1, product2);
+                    bisimRunner.scheduleJob(file1, file2);
                 });
                 wrapUp(tronTask);
             }
@@ -167,7 +122,7 @@ public class Runner {
         Future<?> foo = executorService.submit(tronTask);
         try {
             foo.get();
-            printCSV();
+            //printCSV();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
