@@ -1,20 +1,10 @@
 package org.neocities.daviddev.ntamorphosis.workers;
 
-import de.tudarmstadt.es.juppaal.*;
-import de.tudarmstadt.es.juppaal.labels.Invariant;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.io.SAXReader;
-import org.neocities.daviddev.simmdiff.core.ExtendedNTA;
-import org.w3c.dom.DOMException;
+import be.unamur.uppaal.juppaal.*;
+//import de.tudarmstadt.es.juppaal.*;
 
 import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import static com.google.common.collect.Sets.cartesianProduct;
 
 public class Preprocessor {
 
@@ -60,7 +50,7 @@ public class Preprocessor {
             });
 
             // not interested about this kind of transitions.
-            B.getTransitions().removeIf(transition -> isTauTransition(transition));
+            B.getTransitions().removeIf(transition -> isTauTransition(transition) && isLoopTransition(transition));
             nta.getAutomata().clear();
             nta.addAutomaton(B);
             nta.setSystemDeclaration(new SystemDeclaration("system NTAProduct;"));

@@ -86,7 +86,7 @@ public class Runner {
         Future<?> foo = executorService.submit(mutationTask);
         try {
             foo.get();
-            System.out.println("Finished mutants generation");
+            System.out.println("Finished generating mutants.");
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -103,14 +103,15 @@ public class Runner {
                 File file2 = xmlFiles[j];
                 XMLFileProcessor processor = new XMLFileProcessor(strategy);
                 Runnable tronTask = (() -> {
-                    resultsTron.putAll(processor.runSimmDiff(file1, file2, mutationsDir));
-                    resultsTron.putAll(processor.runSimmDiff(file2, file1, mutationsDir));
 
                     // Get composed mutant path
                     File product1 = new File(mutationsDir+"/compositions", file1.getName());
                     File product2 = new File(mutationsDir+"/compositions", file2.getName());
 
-                    bisimRunner.scheduleJob(file1, file2);
+                    resultsTron.putAll(processor.runSimmDiff(file1, file2, mutationsDir));
+                    resultsTron.putAll(processor.runSimmDiff(file2, file1, mutationsDir));
+
+                    bisimRunner.scheduleJob(product1, product2);
                 });
                 wrapUp(tronTask);
             }

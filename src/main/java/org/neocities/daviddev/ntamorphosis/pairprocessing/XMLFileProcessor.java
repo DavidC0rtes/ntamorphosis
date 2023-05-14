@@ -4,7 +4,6 @@ import org.neocities.daviddev.simmdiff.entrypoint.Runner;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class XMLFileProcessor {
 

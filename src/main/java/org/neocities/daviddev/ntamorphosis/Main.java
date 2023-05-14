@@ -10,7 +10,7 @@ import java.io.File;
 
 @Command(name = "NTAMorphosis", version = "0.1", mixinStandardHelpOptions = true)
 public class Main implements Runnable {
-    enum STRATEGIES { RANDOM, BIASED }
+    enum STRATEGIES { random, biased }
     @Option(names = {"-model"}, description = "Path to model file")
     File model;
 
@@ -35,7 +35,10 @@ public class Main implements Runnable {
     STRATEGIES strategy;
 
     public static void main(String[] args) {
-        int exitCode = new CommandLine(new Main()).execute(args);
+        CommandLine commandLine = new CommandLine(new Main());
+        commandLine.setCaseInsensitiveEnumValuesAllowed(true);
+
+        int exitCode = commandLine.execute(args);
         System.exit(exitCode);
     }
 
