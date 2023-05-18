@@ -9,8 +9,9 @@ if [ -z "$n" ]; then
 fi
 
 # Loop through and execute the JAR file n times
+# shellcheck disable=SC2006
 for i in `seq $n`; do
-    java -jar ~/Documents/NTAMorphosis/out/artifacts/SlimNTAMorphosis_jar/NTAMorphosis.jar -csv=$2/runs/traces_$2_$i.csv -p=../src/main/resources/$2 -csvb=$2/runs/results_bisim_$i.csv -gui=false;
+    java -jar ~/Documents/NTAMorphosis/out/artifacts/SlimNTAMorphosis_jar/NTAMorphosis.jar -csv="$2"/runs/traces_"$2"_"$i".csv -p=../src/main/resources/"$2" -csvb="$2"/runs/results_bisim_"$i".csv -gui=false;
     sleep 10;
 done
 
