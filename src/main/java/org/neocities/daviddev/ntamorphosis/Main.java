@@ -7,6 +7,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 import java.io.File;
+import java.util.Arrays;
 
 @Command(name = "NTAMorphosis", version = "0.1", mixinStandardHelpOptions = true)
 public class Main implements Runnable {
@@ -17,10 +18,7 @@ public class Main implements Runnable {
     @Option(names = {"-op", "--operators"})
     String[] operators;
 
-    @Option(names = "-all", description = "Run with all mutation operators")
-    boolean runAll;
-
-    @Option(names = {"-p","--path"}, description = "Path were the models are", defaultValue = "src/main/resources/mutations")
+    @Option(names = {"-p","--path"}, description = "Path were the mutants are", defaultValue = "src/main/resources/mutations")
     String outPath;
 
     @Option(names = {"-csv","--csv-path"}, description = "Csv path", defaultValue = "traces-result.csv")
@@ -28,6 +26,9 @@ public class Main implements Runnable {
 
     @Option(names = {"-csvb","--csv-bisim"}, description = "Csv path for bisim report", defaultValue = "results_bisim.csv")
     String csvBisim;
+
+    @Option(names = {"-nt", "--no-traces"}, description = "Only compute bisimulation", defaultValue = "false")
+    boolean noTraces;
 
     @Option(names={"-gui"}, description = "Use gui", defaultValue = "true")
     boolean gui;
@@ -45,12 +46,14 @@ public class Main implements Runnable {
     @Override
     public void run() {
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
-
+        boolean runAll = Arrays.asList(operators).contains("all");
         if (gui) {
             new Invoker();
         }
-        else if (runAll) {
+        else if (runAll && model != null && !noTraces) {
             new Runner(model, outPath, csvPath, csvBisim, strategy.toString());
+        } else if (noTraces && model != null) {
+            new Runner(model, outPath, csvBisim);
         } else {
             new Runner(outPath, csvPath, csvBisim, strategy.toString());
         }

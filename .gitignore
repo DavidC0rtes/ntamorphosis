@@ -5,6 +5,7 @@ target/
 src/main/resources/**/.csv
 src/main/resources/**/*.xml
 src/main/resources/**/*.q
+src/main/resources/mutations*
 *.trn
 out/
 reports/**/src

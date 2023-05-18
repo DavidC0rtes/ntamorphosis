@@ -59,6 +59,29 @@ public class Runner {
         execSimmDiffRRSingles(strategy);
     }
 
+    /**
+     * Constructor to call when performing bisimulation checks between
+     * mutants and the original model.
+     */
+    public Runner(File model, String mutationsDir, String csvBisim) {
+        this.model = model;
+        this.mutationsDir = mutationsDir;
+        this.csvBisim = csvBisim;
+        this.executorService = Executors.newCachedThreadPool();
+
+        Preprocessor p = new Preprocessor();
+
+        p.addTauChannel(model);
+        execUppaalMutants();
+
+        preProcess(p);
+        p.computeNTAProduct(model, mutationsDir+"/compositions");
+
+
+        bisimRunner = new BisimRunner(csvBisim);
+        execBisimCheckEquivalent();
+    }
+
     public void preProcess(Preprocessor preprocessor) {
         // Create directory for compositions
         try {
@@ -71,7 +94,6 @@ public class Runner {
         File directory = new File(mutationsDir);
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
         assert xmlFiles != null;
-        System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
         for (File mutant : xmlFiles) {
             preprocessor.computeNTAProduct(mutant, mutationsDir + "/compositions");
         }
@@ -119,6 +141,29 @@ public class Runner {
         bisimRunner.shutdownJobs();
         executorService.shutdown();
     }
+
+    private void execBisimCheckEquivalent() {
+        File directory = new File(mutationsDir);
+        File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
+        assert xmlFiles != null;
+        System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
+        for (int i = 0; i < Objects.requireNonNull(xmlFiles).length; i++) {
+            File file1 = xmlFiles[i];
+            Runnable tronTask = (() -> {
+
+                // Get composed mutant path
+                File product1 = new File(mutationsDir+"/compositions", file1.getName());
+                File product2 = new File(mutationsDir+"/compositions", model.getName());
+
+                bisimRunner.scheduleJob(product1, product2);
+            });
+            wrapUp(tronTask);
+        }
+        bisimRunner.shutdownJobs();
+        executorService.shutdown();
+    }
+
+
     private void wrapUp(Runnable tronTask) {
         Future<?> foo = executorService.submit(tronTask);
         try {
