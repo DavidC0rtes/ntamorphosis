@@ -15,7 +15,7 @@ public class Main implements Runnable {
     @Option(names = {"-model"}, description = "Path to model file")
     File model;
 
-    @Option(names = {"-op", "--operators"})
+    @Option(names = {"-op", "--operators"}, required = true)
     String[] operators;
 
     @Option(names = {"-p","--path"}, description = "Path were the mutants are", defaultValue = "src/main/resources/mutations")

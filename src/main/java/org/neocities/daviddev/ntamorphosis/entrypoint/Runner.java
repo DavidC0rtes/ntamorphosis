@@ -77,7 +77,6 @@ public class Runner {
         preProcess(p);
         p.computeNTAProduct(model, mutationsDir+"/compositions");
 
-
         bisimRunner = new BisimRunner(csvBisim);
         execBisimCheckEquivalent();
     }
@@ -138,7 +137,9 @@ public class Runner {
                 wrapUp(tronTask);
             }
         }
+
         bisimRunner.shutdownJobs();
+
         executorService.shutdown();
     }
 
@@ -147,22 +148,16 @@ public class Runner {
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
         assert xmlFiles != null;
         System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
+        File product2 = new File(mutationsDir+"/compositions", model.getName());
         for (int i = 0; i < Objects.requireNonNull(xmlFiles).length; i++) {
             File file1 = xmlFiles[i];
-            Runnable tronTask = (() -> {
-
-                // Get composed mutant path
-                File product1 = new File(mutationsDir+"/compositions", file1.getName());
-                File product2 = new File(mutationsDir+"/compositions", model.getName());
-
-                bisimRunner.scheduleJob(product1, product2);
-            });
-            wrapUp(tronTask);
+            File product1 = new File(mutationsDir+"/compositions", file1.getName());
+            bisimRunner.scheduleJob(product1, product2);
+            //wrapUp(tronTask);
         }
         bisimRunner.shutdownJobs();
         executorService.shutdown();
     }
-
 
     private void wrapUp(Runnable tronTask) {
         Future<?> foo = executorService.submit(tronTask);

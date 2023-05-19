@@ -11,8 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3052ae77-99f8-41f7-9edd-d002b1bcda3a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,13 +55,13 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/david/Downloads/Packages/juppaal-1.0.2.jar&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/david/Documents/ImplThesis_muted/ImplThesis2/out/artifacts/ImplThesis_jar2/ImplThesis.jar&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.07818608&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.28719723&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
@@ -91,7 +90,7 @@
     <configuration name="Bisim" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
-      <option name="PROGRAM_PARAMETERS" value="-op=all -model=src/main/resources/Collision-avoidance.xml -csvb=reports/collision/result_bisim_product.csv -gui=false -nt=true" />
+      <option name="PROGRAM_PARAMETERS" value="-op=all -model=src/main/resources/Collision-avoidance.xml -csvb=reports/collision/only_bisim.csv -gui=false -nt=true" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -247,7 +246,12 @@
       <workItem from="1683879562710" duration="4356000" />
       <workItem from="1683967708931" duration="1929000" />
       <workItem from="1684019119182" duration="146000" />
-      <workItem from="1684413559359" duration="3076000" />
+      <workItem from="1684413559359" duration="15242000" />
+      <workItem from="1684485822698" duration="843000" />
+      <workItem from="1684487454775" duration="7479000" />
+      <workItem from="1684521787713" duration="233000" />
+      <workItem from="1684525401650" duration="37000" />
+      <workItem from="1684532769408" duration="43000" />
     </task>
     <servers />
   </component>

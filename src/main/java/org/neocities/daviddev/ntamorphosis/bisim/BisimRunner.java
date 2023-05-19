@@ -9,40 +9,41 @@ import org.apache.commons.csv.CSVPrinter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 public class BisimRunner {
     private final Multimap<String, String> results;
     private final ExecutorService bisimService;
+    private final List<CompletableFuture> futures;
     private final String pathToCsv;
 
     public BisimRunner(String pathToCsv) {
-        bisimService = Executors.newCachedThreadPool();
+        bisimService = Executors.newFixedThreadPool(6);
         results = Multimaps.synchronizedMultimap(ArrayListMultimap.create());
         this.pathToCsv=pathToCsv;
+        futures = new ArrayList<>();
     }
 
     public void scheduleJob(File a, File b) {
         long start = System.currentTimeMillis();
-        System.out.printf("Scheduling job for files %s and %s\n",a.getName(), b.getName());
-        Future<Boolean> bisimFuture = bisimService.submit(
-                new BisimScheduler(a, b)
-        );
-
-        try {
-            boolean isBisimilar = bisimFuture.get();
-            String key = a.getName().split("\\.")[0];
-            if (key.length() == 0) {
-                throw new RuntimeException("Empty string as key name");
+        CompletableFuture<Boolean> bisimFuture = CompletableFuture.supplyAsync(
+                new BisimScheduler(a,b),
+                bisimService
+        ).completeOnTimeout(true, 20, TimeUnit.MINUTES
+        ).whenComplete( (result, ex) -> {
+            if (ex != null) {
+                System.err.printf("Exception with files %s and %s\n", a.getName(), b.getName());
+                ex.printStackTrace();
             }
-            results.put(key, b.getName());
-            results.put(key,isBisimilar ? "true" : "false");
-            results.put(key, String.valueOf(System.currentTimeMillis() - start));
-            writeResults();
-            results.clear();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        });
+
+        futures.add(
+                bisimFuture.thenAcceptAsync(bisimilar -> {
+                    writeResultRow(a.getName(), b.getName(), String.valueOf(bisimilar), System.currentTimeMillis() - start);
+                })
+        );
     }
 
     private synchronized void writeResults() {
@@ -60,7 +61,35 @@ public class BisimRunner {
         }
     }
 
+    private synchronized void writeResultRow(String model1, String model2, String bisim, long elapsedTime) {
+        try (CSVPrinter printer = new CSVPrinter(new FileWriter(pathToCsv, true), CSVFormat.DEFAULT)){
+            printer.printRecord(model1, model2, bisim, elapsedTime);
+            printer.flush();
+            System.out.println("Wrote to "+pathToCsv);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void shutdownJobs() {
+        if (!futures.stream().allMatch(Future::isDone)) {
+            System.out.println("Jobs are not done yet, waiting on them...");
+            futures.forEach(job -> {
+                try {
+                    job.get(20, TimeUnit.MINUTES);
+                } catch (InterruptedException | ExecutionException e) {
+                    System.err.println("Error in job");
+                    throw new RuntimeException(e);
+                } catch (TimeoutException e) {
+                    System.out.println("Timed out, skipping...");
+                }
+            });
+        }
         bisimService.shutdown();
+        /*try {
+            bisimService.awaitTermination(1, TimeUnit.HOURS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }*/
     }
 }
