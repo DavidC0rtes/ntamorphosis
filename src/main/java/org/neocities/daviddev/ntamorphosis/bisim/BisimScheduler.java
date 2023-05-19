@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
-public class BisimScheduler implements Supplier<Boolean> {
+public class BisimScheduler implements Supplier<String> {
     private final File aFile, bFile;
     private final String template;
 
@@ -19,7 +19,7 @@ public class BisimScheduler implements Supplier<Boolean> {
     }
 
     @Override
-    public Boolean get() {
+    public String get() {
         System.out.printf("Calling bisimulation with %s and %s\n", aFile.getAbsolutePath(), bFile.getAbsolutePath());
 //        NTA nta1 = new NTA(aFile.getAbsolutePath());
 //        NTA nta2 = new NTA(bFile.getAbsolutePath());
@@ -40,7 +40,7 @@ public class BisimScheduler implements Supplier<Boolean> {
             Process p = pb.start();
             p.waitFor();
             result = new String(p.getInputStream().readAllBytes());
-            return result.contains("Result of bisimulation check: true");
+            return String.valueOf(result.contains("Result of bisimulation check: true"));
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }

@@ -20,7 +20,7 @@ public class BisimRunner {
     private final String pathToCsv;
 
     public BisimRunner(String pathToCsv) {
-        bisimService = Executors.newFixedThreadPool(6);
+        bisimService = Executors.newFixedThreadPool(4);
         results = Multimaps.synchronizedMultimap(ArrayListMultimap.create());
         this.pathToCsv=pathToCsv;
         futures = new ArrayList<>();
@@ -28,10 +28,10 @@ public class BisimRunner {
 
     public void scheduleJob(File a, File b) {
         long start = System.currentTimeMillis();
-        CompletableFuture<Boolean> bisimFuture = CompletableFuture.supplyAsync(
+        CompletableFuture<String> bisimFuture = CompletableFuture.supplyAsync(
                 new BisimScheduler(a,b),
                 bisimService
-        ).completeOnTimeout(true, 20, TimeUnit.MINUTES
+        ).completeOnTimeout("timeout", 20, TimeUnit.MINUTES
         ).whenComplete( (result, ex) -> {
             if (ex != null) {
                 System.err.printf("Exception with files %s and %s\n", a.getName(), b.getName());
