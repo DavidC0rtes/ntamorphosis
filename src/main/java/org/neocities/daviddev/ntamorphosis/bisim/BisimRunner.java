@@ -9,6 +9,9 @@ import org.apache.commons.csv.CSVPrinter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -21,27 +24,40 @@ public class BisimRunner {
 
     public BisimRunner(String pathToCsv) {
         bisimService = Executors.newFixedThreadPool(4);
+//        bisimService = new ThreadPoolExecutor(4,4,0L, TimeUnit.MILLISECONDS,
+//                new LinkedBlockingQueue<>(1));
         results = Multimaps.synchronizedMultimap(ArrayListMultimap.create());
         this.pathToCsv=pathToCsv;
         futures = new ArrayList<>();
     }
 
     public void scheduleJob(File a, File b) {
-        long start = System.currentTimeMillis();
+        long submitTime = System.currentTimeMillis();
         CompletableFuture<String> bisimFuture = CompletableFuture.supplyAsync(
                 new BisimScheduler(a,b),
                 bisimService
-        ).completeOnTimeout("timeout", 20, TimeUnit.MINUTES
-        ).whenComplete( (result, ex) -> {
+        ).whenCompleteAsync( (result, ex) -> {
             if (ex != null) {
                 System.err.printf("Exception with files %s and %s\n", a.getName(), b.getName());
                 ex.printStackTrace();
             }
         });
+        addFuture(a, b, submitTime, bisimFuture);
+    }
 
+    private void addFuture(File a, File b, long start, CompletableFuture<String> bisimFuture) {
+        System.out.println("Adding future");
         futures.add(
                 bisimFuture.thenAcceptAsync(bisimilar -> {
-                    writeResultRow(a.getName(), b.getName(), String.valueOf(bisimilar), System.currentTimeMillis() - start);
+                    long end = System.currentTimeMillis();
+                    writeResultRow(
+                            a.getName(),
+                            b.getName(),
+                            String.valueOf(bisimilar),
+                            Instant.ofEpochMilli(start).atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                            Instant.ofEpochMilli(end).atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                            end - start
+                    );
                 })
         );
     }
@@ -61,9 +77,9 @@ public class BisimRunner {
         }
     }
 
-    private synchronized void writeResultRow(String model1, String model2, String bisim, long elapsedTime) {
+    private synchronized void writeResultRow(String model1, String model2, String bisim, LocalDateTime startDate, LocalDateTime endDate, long elapsedTime) {
         try (CSVPrinter printer = new CSVPrinter(new FileWriter(pathToCsv, true), CSVFormat.DEFAULT)){
-            printer.printRecord(model1, model2, bisim, elapsedTime);
+            printer.printRecord(model1, model2, bisim, startDate, endDate, elapsedTime);
             printer.flush();
             System.out.println("Wrote to "+pathToCsv);
         } catch (IOException e) {
@@ -76,20 +92,26 @@ public class BisimRunner {
             System.out.println("Jobs are not done yet, waiting on them...");
             futures.forEach(job -> {
                 try {
-                    job.get(20, TimeUnit.MINUTES);
+                    job.get();
                 } catch (InterruptedException | ExecutionException e) {
                     System.err.println("Error in job");
                     throw new RuntimeException(e);
-                } catch (TimeoutException e) {
-                    System.out.println("Timed out, skipping...");
                 }
             });
         }
         bisimService.shutdown();
-        /*try {
+        try {
             bisimService.awaitTermination(1, TimeUnit.HOURS);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        }*/
+        }
+    }
+
+    private long calculateTimeout(long submitTime) {
+        long waitingTime = System.currentTimeMillis() - submitTime;
+        long timeout = 20 * 60 * 1000; // Total timeout duration in milliseconds
+        long effectiveTimeout = Math.max(0, timeout - waitingTime);
+        System.out.printf("Effective timeout %d s\n", (effectiveTimeout/1000)/60);
+        return effectiveTimeout;
     }
 }

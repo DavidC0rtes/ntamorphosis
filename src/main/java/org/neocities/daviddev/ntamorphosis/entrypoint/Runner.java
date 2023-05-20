@@ -153,6 +153,7 @@ public class Runner {
             File file1 = xmlFiles[i];
             File product1 = new File(mutationsDir+"/compositions", file1.getName());
             bisimRunner.scheduleJob(product1, product2);
+
             //wrapUp(tronTask);
         }
         bisimRunner.shutdownJobs();
