@@ -23,9 +23,7 @@ public class BisimRunner {
     private final String pathToCsv;
 
     public BisimRunner(String pathToCsv) {
-        bisimService = Executors.newFixedThreadPool(4);
-//        bisimService = new ThreadPoolExecutor(4,4,0L, TimeUnit.MILLISECONDS,
-//                new LinkedBlockingQueue<>(1));
+        bisimService = Executors.newFixedThreadPool(5);
         results = Multimaps.synchronizedMultimap(ArrayListMultimap.create());
         this.pathToCsv=pathToCsv;
         futures = new ArrayList<>();
@@ -46,7 +44,6 @@ public class BisimRunner {
     }
 
     private void addFuture(File a, File b, long start, CompletableFuture<String> bisimFuture) {
-        System.out.println("Adding future");
         futures.add(
                 bisimFuture.thenAcceptAsync(bisimilar -> {
                     long end = System.currentTimeMillis();
@@ -105,13 +102,5 @@ public class BisimRunner {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private long calculateTimeout(long submitTime) {
-        long waitingTime = System.currentTimeMillis() - submitTime;
-        long timeout = 20 * 60 * 1000; // Total timeout duration in milliseconds
-        long effectiveTimeout = Math.max(0, timeout - waitingTime);
-        System.out.printf("Effective timeout %d s\n", (effectiveTimeout/1000)/60);
-        return effectiveTimeout;
     }
 }
