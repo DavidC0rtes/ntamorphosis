@@ -24,7 +24,7 @@ public class Runner {
     private ExecutorService executorService;
     private HashMap<String, String[]> resultsTron;
     private HashMap<String, String[]> resultsBisim;
-    private BisimRunner bisimRunner;
+    private final BisimRunner bisimRunner;
     private enum tronHeaders {
         mutant1, mutant2, template, passed_test, diff_locations, explored_diffs, elapsed_time
     }
@@ -41,35 +41,6 @@ public class Runner {
         prepareCSV();
         execSimmDiffRRSingles(strategy);
     }
-
-    /*public Runner(File model, String mutationsDir, String csvTraces, String csvBisim, String strategy) {
-        this.model = model;
-        this.mutationsDir = mutationsDir+System.currentTimeMillis();
-        this.executorService = Executors.newCachedThreadPool();
-        resultsTron = new HashMap<>();
-        this.csvTraces = csvTraces;
-        this.csvBisim=csvBisim;
-        Preprocessor p = new Preprocessor();
-        p.addTauChannel(model);
-        execUppaalMutants(operators);
-        preProcess(p);
-        bisimRunner = new BisimRunner(csvBisim);
-        prepareCSV();
-        execSimmDiffRRSingles(strategy);
-    }*/
-    
-    /*public Runner(String dir, String csvTraces, String csvBisim, String strategy) {
-        this.mutationsDir = dir;
-        this.executorService = Executors.newCachedThreadPool();
-        resultsTron = new HashMap<>();
-        this.csvTraces = csvTraces;
-        this.csvBisim=csvBisim;
-        bisimRunner = new BisimRunner(csvBisim);
-//        Preprocessor p = new Preprocessor();
-//        preProcess(p);
-        prepareCSV();
-        execSimmDiffRRSingles(strategy);
-    }*/
 
     /**
      * Constructor to call when performing bisimulation checks between
@@ -167,17 +138,14 @@ public class Runner {
     }
 
     public void execBisimCheckEquivalent() {
+        File file2 = preprocessor.computeNTAProduct(model, mutationsDir);
         File directory = new File(mutationsDir);
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
         assert xmlFiles != null;
         System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
-        File product2 = new File(mutationsDir, model.getName());
         for (int i = 0; i < Objects.requireNonNull(xmlFiles).length; i++) {
             File file1 = xmlFiles[i];
-            File product1 = new File(mutationsDir, file1.getName());
-            bisimRunner.scheduleJob(product1, product2);
-
-            //wrapUp(tronTask);
+            bisimRunner.scheduleJob(file1, file2);
         }
         bisimRunner.shutdownJobs();
         executorService.shutdown();
@@ -188,13 +156,8 @@ public class Runner {
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
         assert xmlFiles != null;
         System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
-        for (int i = 0; i < Objects.requireNonNull(xmlFiles).length; i++) {
-            for (int j = 1; j < xmlFiles.length; j++) {
-                File file1 = xmlFiles[i];
-                File product1 = new File(mutationsDir, file1.getName());
-                File product2 = new File(mutationsDir, xmlFiles[j].getName());
-                bisimRunner.scheduleJob(product1, product2);
-            }
+        for (int i = 1; i < Objects.requireNonNull(xmlFiles).length; i++) {
+            bisimRunner.scheduleJob(xmlFiles[i], xmlFiles[i-1]);
         }
         bisimRunner.shutdownJobs();
         executorService.shutdown();
