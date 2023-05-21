@@ -31,7 +31,7 @@ public class BisimRunner {
 
     public void scheduleJob(File a, File b) {
         long submitTime = System.currentTimeMillis();
-        CompletableFuture<String> bisimFuture = CompletableFuture.supplyAsync(
+        CompletableFuture<Boolean> bisimFuture = CompletableFuture.supplyAsync(
                 new BisimScheduler(a,b),
                 bisimService
         ).whenCompleteAsync( (result, ex) -> {
@@ -43,7 +43,7 @@ public class BisimRunner {
         addFuture(a, b, submitTime, bisimFuture);
     }
 
-    private void addFuture(File a, File b, long start, CompletableFuture<String> bisimFuture) {
+    private void addFuture(File a, File b, long start, CompletableFuture<Boolean> bisimFuture) {
         futures.add(
                 bisimFuture.thenAcceptAsync(bisimilar -> {
                     long end = System.currentTimeMillis();

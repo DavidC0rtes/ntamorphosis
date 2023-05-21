@@ -1,15 +1,10 @@
 package org.neocities.daviddev.ntamorphosis.bisim;
 
-import de.tudarmstadt.es.juppaal.NTA;
-import evaluation.BisimulationTest1;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
-public class BisimScheduler implements Supplier<String> {
+public class BisimScheduler implements Supplier<Boolean> {
     private final File aFile, bFile;
     private final String template;
 
@@ -19,7 +14,7 @@ public class BisimScheduler implements Supplier<String> {
     }
 
     @Override
-    public String get() {
+    public Boolean get() {
         System.out.printf("Calling bisimulation with %s and %s\n", aFile.getAbsolutePath(), bFile.getAbsolutePath());
 //        NTA nta1 = new NTA(aFile.getAbsolutePath());
 //        NTA nta2 = new NTA(bFile.getAbsolutePath());
@@ -40,11 +35,10 @@ public class BisimScheduler implements Supplier<String> {
             Process p = pb.start();
             p.waitFor();
             result = new String(p.getInputStream().readAllBytes());
-            return String.valueOf(result.contains("Result of bisimulation check: true"));
+            System.out.println(result);
+            return result.contains("Result of bisimulation check: true");
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-        //return new BisimulationTest1(aFile, bFile, 42).run();
     }
 }

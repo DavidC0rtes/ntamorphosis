@@ -12,73 +12,90 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.stream.Stream;
 
 public class Runner {
     private final String csvBisim;
-    private String mutationsDir, csvPath;
+    private String mutationsDir, csvTraces;
     private File model;
     private List<String> operators;
+    private Preprocessor preprocessor;
     private ExecutorService executorService;
     private HashMap<String, String[]> resultsTron;
     private HashMap<String, String[]> resultsBisim;
     private BisimRunner bisimRunner;
-
     private enum tronHeaders {
         mutant1, mutant2, template, passed_test, diff_locations, explored_diffs, elapsed_time
     }
-    public Runner(File model, String mutationsDir, String csvPath, String csvBisim, String strategy) {
-        this.model = model;
-        this.mutationsDir = mutationsDir+System.currentTimeMillis();
+    public Runner(ArrayList<String> operators, File model, String mutationsDir, String csvTraces, String csvBisim, String strategy) {
         this.executorService = Executors.newCachedThreadPool();
+        this.csvTraces = csvTraces;
+        this.csvBisim = csvBisim;
         resultsTron = new HashMap<>();
-        this.csvPath=csvPath;
-        this.csvBisim=csvBisim;
-        Preprocessor p = new Preprocessor();
-        p.addTauChannel(model);
-        execUppaalMutants();
-        preProcess(p);
+        preprocessor = new Preprocessor();
+
+        configureMutations(operators, model, mutationsDir);
+        preProcess(preprocessor);
         bisimRunner = new BisimRunner(csvBisim);
         prepareCSV();
         execSimmDiffRRSingles(strategy);
     }
+
+    /*public Runner(File model, String mutationsDir, String csvTraces, String csvBisim, String strategy) {
+        this.model = model;
+        this.mutationsDir = mutationsDir+System.currentTimeMillis();
+        this.executorService = Executors.newCachedThreadPool();
+        resultsTron = new HashMap<>();
+        this.csvTraces = csvTraces;
+        this.csvBisim=csvBisim;
+        Preprocessor p = new Preprocessor();
+        p.addTauChannel(model);
+        execUppaalMutants(operators);
+        preProcess(p);
+        bisimRunner = new BisimRunner(csvBisim);
+        prepareCSV();
+        execSimmDiffRRSingles(strategy);
+    }*/
     
-    public Runner(String dir, String csvPath, String csvBisim, String strategy) {
+    /*public Runner(String dir, String csvTraces, String csvBisim, String strategy) {
         this.mutationsDir = dir;
         this.executorService = Executors.newCachedThreadPool();
         resultsTron = new HashMap<>();
-        this.csvPath=csvPath;
+        this.csvTraces = csvTraces;
         this.csvBisim=csvBisim;
         bisimRunner = new BisimRunner(csvBisim);
 //        Preprocessor p = new Preprocessor();
 //        preProcess(p);
         prepareCSV();
         execSimmDiffRRSingles(strategy);
-    }
+    }*/
 
     /**
      * Constructor to call when performing bisimulation checks between
-     * mutants and the original model.
+     * mutants and the original model, or between mutants only.
      */
-    public Runner(File model, String mutationsDir, String csvBisim) {
+    public Runner(ArrayList<String> operators, File model, String mutationsDir, String csvBisim) {
         this.model = model;
-        this.mutationsDir = mutationsDir;
         this.csvBisim = csvBisim;
         this.executorService = Executors.newCachedThreadPool();
-
-        Preprocessor p = new Preprocessor();
-
-        p.addTauChannel(model);
-        execUppaalMutants();
-
-        preProcess(p);
-        p.computeNTAProduct(model, mutationsDir+"/compositions");
-
+        preprocessor = new Preprocessor();
         bisimRunner = new BisimRunner(csvBisim);
-        execBisimCheckEquivalent();
+
+        configureMutations(operators, model, mutationsDir);
+    }
+
+    private void configureMutations(List<String> operators, File model, String mutationsDir) {
+        if (operators.size() > 0) { // do mutations
+            this.mutationsDir = mutationsDir+System.currentTimeMillis();
+            preprocessor.addTauChannel(model);
+            execUppaalMutants(operators);
+            preProcess(preprocessor);
+            preprocessor.computeNTAProduct(model, mutationsDir+"/compositions");
+            this.mutationsDir += "/compositions";
+        } else {
+            this.mutationsDir = mutationsDir;
+        }
     }
 
     public void preProcess(Preprocessor preprocessor) {
@@ -98,10 +115,15 @@ public class Runner {
         }
     }
 
-    private void execUppaalMutants() {
+    private void execUppaalMutants(List<String> operators) {
+        String command = operators.contains("all")
+                ? "all"
+                : String.join(" -",operators);
+
+        System.out.println("command is "+command);
         Runnable mutationTask = (() ->
                 EntryPoint.main(new String[]{
-                        "-m="+model, "-p="+mutationsDir, "-all"
+                        "-m="+model, "-p="+mutationsDir, "-"+command
                 })
         );
         Future<?> foo = executorService.submit(mutationTask);
@@ -111,6 +133,7 @@ public class Runner {
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
+        System.exit(0);
     }
 
     private void execSimmDiffRRSingles(String strategy) {
@@ -143,18 +166,35 @@ public class Runner {
         executorService.shutdown();
     }
 
-    private void execBisimCheckEquivalent() {
+    public void execBisimCheckEquivalent() {
         File directory = new File(mutationsDir);
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
         assert xmlFiles != null;
         System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
-        File product2 = new File(mutationsDir+"/compositions", model.getName());
+        File product2 = new File(mutationsDir, model.getName());
         for (int i = 0; i < Objects.requireNonNull(xmlFiles).length; i++) {
             File file1 = xmlFiles[i];
-            File product1 = new File(mutationsDir+"/compositions", file1.getName());
+            File product1 = new File(mutationsDir, file1.getName());
             bisimRunner.scheduleJob(product1, product2);
 
             //wrapUp(tronTask);
+        }
+        bisimRunner.shutdownJobs();
+        executorService.shutdown();
+    }
+
+    public void checkDuplicates() {
+        File directory = new File(mutationsDir);
+        File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
+        assert xmlFiles != null;
+        System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
+        for (int i = 0; i < Objects.requireNonNull(xmlFiles).length; i++) {
+            for (int j = 1; j < xmlFiles.length; j++) {
+                File file1 = xmlFiles[i];
+                File product1 = new File(mutationsDir, file1.getName());
+                File product2 = new File(mutationsDir, xmlFiles[j].getName());
+                bisimRunner.scheduleJob(product1, product2);
+            }
         }
         bisimRunner.shutdownJobs();
         executorService.shutdown();
@@ -175,14 +215,14 @@ public class Runner {
                 .setHeader(tronHeaders.class)
                 .build();
 
-        try (FileWriter writer = new FileWriter(csvPath)){
+        try (FileWriter writer = new FileWriter(csvTraces)){
             csvFormat.print(writer);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     private synchronized void printCSV() {
-        try (CSVPrinter printer = new CSVPrinter(new FileWriter(csvPath, true), CSVFormat.DEFAULT)) {
+        try (CSVPrinter printer = new CSVPrinter(new FileWriter(csvTraces, true), CSVFormat.DEFAULT)) {
 
             // Key: filename of mutant.
             // Value: String[]{path to model, tron result}
