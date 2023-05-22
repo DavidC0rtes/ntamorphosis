@@ -11,6 +11,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3052ae77-99f8-41f7-9edd-d002b1bcda3a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +96,7 @@
     <configuration name="Duplicates" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
-      <option name="PROGRAM_PARAMETERS" value="-dup -gui=false -dir=src/main/resources/mutations1684668138226 -csvb=reports/collision/tram-duplicates.csv" />
+      <option name="PROGRAM_PARAMETERS" value="-model=src/main/resources/Train-gate-controller.xml --operators=all --duplicates --no-gui -csvb=reports/Train-Gate/duplicates.csv" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -256,6 +258,7 @@
       <workItem from="1684624825848" duration="3030000" />
       <workItem from="1684628331445" duration="12520000" />
       <workItem from="1684679894118" duration="1632000" />
+      <workItem from="1684743539465" duration="609000" />
     </task>
     <servers />
   </component>

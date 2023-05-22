@@ -104,7 +104,6 @@ public class Runner {
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
-        System.exit(0);
     }
 
     private void execSimmDiffRRSingles(String strategy) {

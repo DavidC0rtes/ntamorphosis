@@ -33,7 +33,7 @@ public class Main implements Runnable {
     @Option(names = {"-dup", "--duplicates"}, description = "Compute bisimulation between each mutant", defaultValue = "false")
     boolean getDuplicates;
 
-    @Option(names={"-gui"}, description = "Use gui", defaultValue = "true")
+    @Option(names = "--gui", description = "Use the gui. True by default.", defaultValue = "true", fallbackValue = "true", negatable = true)
     boolean gui;
     @Option(names = "-how", description = "How to generate traces, one of: ${COMPLETION-CANDIDATES}", defaultValue = "biased")
     STRATEGIES strategy;
@@ -49,6 +49,7 @@ public class Main implements Runnable {
     @Override
     public void run() {
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        System.out.println(gui);
         if (gui) {
             new Invoker();
         } else if (getEquivalent || getDuplicates) { // hacer mutaciones y equivalentes
