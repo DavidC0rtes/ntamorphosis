@@ -5,6 +5,10 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.neocities.daviddev.ntamorphosis.workers.TracesProvider;
+import org.neocities.daviddev.ntamorphosis.workers.VerifierScheduler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,12 +18,14 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.*;
 
 public class BisimRunner {
     private final Multimap<String, String> results;
     private final ExecutorService bisimService;
     private final List<CompletableFuture> futures;
+    private static final Logger logger = LoggerFactory.getLogger(BisimRunner.class);
     private final String pathToCsv;
 
     public BisimRunner(String pathToCsv) {
@@ -31,13 +37,17 @@ public class BisimRunner {
 
     public void scheduleJob(File a, File b) {
         long submitTime = System.currentTimeMillis();
-        CompletableFuture<Boolean> bisimFuture = CompletableFuture.supplyAsync(
-                new BisimScheduler(a,b),
-                bisimService
-        ).whenCompleteAsync( (result, ex) -> {
-            if (ex != null) {
-                System.err.printf("Exception with files %s and %s\n", a.getName(), b.getName());
-                ex.printStackTrace();
+        CompletableFuture<Boolean> verifyTAFuture = CompletableFuture.supplyAsync(
+                new VerifierScheduler("/home/david/.local/etc/uppaal64-4.1.26-2/bin-Linux/verifyta",a)
+                , bisimService
+        ).completeOnTimeout(true, 5, TimeUnit.MINUTES);
+
+        CompletableFuture<Boolean> bisimFuture = verifyTAFuture.thenComposeAsync(satisfied -> {
+            if (!satisfied) {
+                return CompletableFuture.completedFuture(false);
+            } else {
+                return CompletableFuture.supplyAsync(new BisimScheduler(a,b), bisimService)
+                        .completeOnTimeout(true, 1, TimeUnit.HOURS);
             }
         });
         addFuture(a, b, submitTime, bisimFuture);
@@ -87,20 +97,47 @@ public class BisimRunner {
     public void shutdownJobs() {
         if (!futures.stream().allMatch(Future::isDone)) {
             System.out.println("Jobs are not done yet, waiting on them...");
-            futures.forEach(job -> {
-                try {
-                    job.get();
-                } catch (InterruptedException | ExecutionException e) {
-                    System.err.println("Error in job");
-                    throw new RuntimeException(e);
-                }
-            });
+            futures.forEach(CompletableFuture::join);
         }
         bisimService.shutdown();
         try {
-            bisimService.awaitTermination(1, TimeUnit.HOURS);
+            bisimService.awaitTermination(10, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean execVerifyTa(String pathToVerifyTA, File model) {
+        Random rand = new Random();
+        ProcessBuilder processBuilder = new ProcessBuilder(
+                pathToVerifyTA,
+                "-t", "0",
+                "-r", Integer.toString(rand.nextInt()),
+                "-q", model.getAbsolutePath()
+        );
+
+        Process process = null;
+        try {
+            process = processBuilder.start();
+            process.waitFor(100, TimeUnit.MINUTES);
+        } catch (IOException | InterruptedException e) {
+            logger.error("Error startind and/or waiting for process with model {}.",model.getName(),e);
+            throw new RuntimeException(e);
+        }
+
+
+        String output = null;
+        try {
+            output = new String(process.getErrorStream().readAllBytes());
+        } catch (IOException e) {
+            logger.error("Error while reading verifyta's output with model {}.",model.getName(),e);
+            throw new RuntimeException(e);
+        }
+        if (output.isEmpty()) {
+            logger.error("Acquired empty string when reading verifyta.");
+            return false;
+        }
+
+        return !output.contains("NOT satisfied") && !output.contains("MAY be satisfied");
     }
 }

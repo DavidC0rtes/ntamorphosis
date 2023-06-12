@@ -132,19 +132,19 @@ public class Runner {
         }
 
         bisimRunner.shutdownJobs();
-
         executorService.shutdown();
     }
 
     public void execBisimCheckEquivalent() {
-        File file2 = preprocessor.computeNTAProduct(model, mutationsDir);
+        File ntaProduct = preprocessor.computeNTAProduct(model, mutationsDir);
         File directory = new File(mutationsDir);
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
         assert xmlFiles != null;
-        System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
         for (int i = 0; i < Objects.requireNonNull(xmlFiles).length; i++) {
             File file1 = xmlFiles[i];
-            bisimRunner.scheduleJob(file1, file2);
+            if (!file1.getName().equals(ntaProduct.getName())) {
+                bisimRunner.scheduleJob(file1, ntaProduct);
+            }
         }
         bisimRunner.shutdownJobs();
         executorService.shutdown();
@@ -159,7 +159,7 @@ public class Runner {
             bisimRunner.scheduleJob(xmlFiles[i], xmlFiles[i-1]);
         }
         bisimRunner.shutdownJobs();
-        executorService.shutdown();
+        //executorService.shutdown();
     }
 
     private void wrapUp(Runnable tronTask) {

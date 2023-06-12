@@ -1,7 +1,6 @@
 package org.neocities.daviddev.ntamorphosis.workers;
 
 import be.unamur.uppaal.juppaal.*;
-//import de.tudarmstadt.es.juppaal.*;
 
 import java.io.File;
 import java.util.List;
@@ -70,7 +69,7 @@ public class Preprocessor {
             return false;
         }
 
-        if (transition.getUpdate() == null && !transition.getUpdate().toString().isEmpty()) {
+        if (transition.getUpdate() != null && !transition.getUpdate().toString().isEmpty()) {
             return false;
         }
 

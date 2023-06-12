@@ -49,7 +49,6 @@ public class Main implements Runnable {
     @Override
     public void run() {
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
-        System.out.println(gui);
         if (gui) {
             new Invoker();
         } else if (getEquivalent || getDuplicates) { // hacer mutaciones y equivalentes
