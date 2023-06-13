@@ -164,10 +164,13 @@ public class Runner {
         assert xmlFiles != null;
         System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
         for (int i = 1; i < Objects.requireNonNull(xmlFiles).length; i++) {
-            bisimRunner.scheduleJob(xmlFiles[i], xmlFiles[i-1]);
+            File file1 = xmlFiles[i];
+            File file2 = xmlFiles[i-1];
+            if (!file1.getName().equals(model.getName()) && !file2.getName().equals(model.getName()))
+                bisimRunner.scheduleJob(file1, file2);
         }
         bisimRunner.shutdownJobs();
-        //executorService.shutdown();
+        executorService.shutdown();
     }
 
     private void wrapUp(Runnable tronTask) {

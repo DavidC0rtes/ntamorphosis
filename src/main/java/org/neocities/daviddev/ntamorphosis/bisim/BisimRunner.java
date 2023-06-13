@@ -46,7 +46,6 @@ public class BisimRunner {
             logger.error("Mutant {} does not exist, or the path is wrong.", pathToMutant);
             System.exit(1);
         }
-
         File mutantNTA = new File(pathToMutant.toUri());
         CompletableFuture<Boolean> verifyTAFuture = CompletableFuture.supplyAsync(
                 new VerifierScheduler("/home/david/.local/etc/uppaal64-4.1.26-2/bin-Linux/verifyta",mutantNTA)
