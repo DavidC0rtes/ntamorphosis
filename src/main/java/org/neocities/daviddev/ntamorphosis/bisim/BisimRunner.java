@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -37,8 +40,16 @@ public class BisimRunner {
 
     public void scheduleJob(File a, File b) {
         long submitTime = System.currentTimeMillis();
+        // File a is the product of the mutant, for verifyta, we need to pass the original version of the mutant
+        Path pathToMutant = Paths.get(a.getParentFile().getParent() + "/" + a.getName());
+        if (!Files.exists(pathToMutant)) {
+            logger.error("Mutant {} does not exist, or the path is wrong.", pathToMutant);
+            System.exit(1);
+        }
+
+        File mutantNTA = new File(pathToMutant.toUri());
         CompletableFuture<Boolean> verifyTAFuture = CompletableFuture.supplyAsync(
-                new VerifierScheduler("/home/david/.local/etc/uppaal64-4.1.26-2/bin-Linux/verifyta",a)
+                new VerifierScheduler("/home/david/.local/etc/uppaal64-4.1.26-2/bin-Linux/verifyta",mutantNTA)
                 , bisimService
         ).completeOnTimeout(true, 5, TimeUnit.MINUTES);
 

@@ -58,14 +58,17 @@ public class Runner {
 
     private void configureMutations(List<String> operators, File model, String mutationsDir) {
         if (operators.size() > 0) { // do mutations
-            this.mutationsDir = mutationsDir+System.currentTimeMillis();
+            this.mutationsDir = mutationsDir.concat(String.valueOf(System.currentTimeMillis()));
             preprocessor.addTauChannel(model);
             execUppaalMutants(operators);
             preProcess(preprocessor);
-            preprocessor.computeNTAProduct(model, mutationsDir+"/compositions");
+            preprocessor.computeNTAProduct(model, this.mutationsDir+"/compositions");
             this.mutationsDir += "/compositions";
         } else {
             this.mutationsDir = mutationsDir;
+            // we assume we got a dir of mutants, but not of compositions, we need to make them then
+            preProcess(preprocessor);
+            this.mutationsDir += "/compositions";
         }
     }
 
@@ -78,11 +81,16 @@ public class Runner {
             throw new RuntimeException(e);
         }
 
-        File directory = new File(mutationsDir);
-        File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
-        assert xmlFiles != null;
-        for (File mutant : xmlFiles) {
-            preprocessor.computeNTAProduct(mutant, mutationsDir + "/compositions");
+        try {
+            File directory = new File(mutationsDir);
+            File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
+            assert xmlFiles != null;
+            for (File mutant : xmlFiles) {
+                preprocessor.computeNTAProduct(mutant, mutationsDir + "/compositions");
+            }
+        } catch (NullPointerException ex) {
+            System.err.printf("Can't find directory %s\n.", mutationsDir);
+            System.exit(3);
         }
     }
 
@@ -137,7 +145,7 @@ public class Runner {
 
     public void execBisimCheckEquivalent() {
         File ntaProduct = preprocessor.computeNTAProduct(model, mutationsDir);
-        File directory = new File(mutationsDir);
+        File directory = new File(mutationsDir); // <-- points to compositions dir
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
         assert xmlFiles != null;
         for (int i = 0; i < Objects.requireNonNull(xmlFiles).length; i++) {

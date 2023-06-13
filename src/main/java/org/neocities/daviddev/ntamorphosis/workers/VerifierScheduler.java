@@ -16,7 +16,7 @@ public class VerifierScheduler implements Supplier<Boolean> {
 
     public VerifierScheduler(String pathToVerifyTA, File model) {
         this.pathToVerifyTA = pathToVerifyTA;
-        this.model = new File(model.getParentFile().getParent() + "/" + model.getName());
+        this.model = model;
     }
 
     /**
