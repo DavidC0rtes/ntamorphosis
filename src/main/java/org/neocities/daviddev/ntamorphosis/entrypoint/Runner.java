@@ -1,6 +1,7 @@
 package org.neocities.daviddev.ntamorphosis.entrypoint;
 
 import Parser.Main.EntryPoint;
+import com.google.common.collect.Sets;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.neocities.daviddev.ntamorphosis.bisim.BisimRunner;
@@ -161,16 +162,17 @@ public class Runner {
     public void checkDuplicates() {
         File directory = new File(mutationsDir);
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
-        assert xmlFiles != null;
-        System.out.printf("%d files in %s \n",xmlFiles.length, mutationsDir);
-        for (int i = 1; i < Objects.requireNonNull(xmlFiles).length; i++) {
-            File file1 = xmlFiles[i];
-            File file2 = xmlFiles[i-1];
-            if (!file1.getName().equals(model.getName()) && !file2.getName().equals(model.getName()))
-                bisimRunner.scheduleJob(file1, file2);
+        if (xmlFiles != null) {
+            Set<Set<File>> pairs = Sets.combinations(Sets.newHashSet(xmlFiles), 2);
+            pairs.forEach(pair -> {
+                File[] files = pair.toArray(new File[2]);
+                // don't care about the model
+                if (!files[0].getName().equals(model.getName()) && !files[1].getName().equals(model.getName()))
+                    bisimRunner.scheduleJob(files[0], files[1]);
+            });
+            bisimRunner.shutdownJobs();
+            executorService.shutdown();
         }
-        bisimRunner.shutdownJobs();
-        executorService.shutdown();
     }
 
     private void wrapUp(Runnable tronTask) {

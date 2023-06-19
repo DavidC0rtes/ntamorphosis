@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 public class VerifierScheduler implements Supplier<Boolean> {
@@ -34,8 +35,8 @@ public class VerifierScheduler implements Supplier<Boolean> {
         Process process = null;
         try {
             process = processBuilder.start();
-            logger.debug("Waiting for verifyta to return on file {}", model.getAbsolutePath());
-            process.waitFor();
+            logger.info("Waiting for verifyta to return on file {}", model.getAbsolutePath());
+            process.waitFor(5, TimeUnit.MINUTES);
         } catch (IOException | InterruptedException e) {
             logger.error("Error starting and/or waiting for process with model {}.",model.getName(),e);
             System.exit(-1);
@@ -53,7 +54,7 @@ public class VerifierScheduler implements Supplier<Boolean> {
 
         if (output.isEmpty() && !errOutput.isEmpty()) {
             logger.error("Got empty string when reading verifyta, file {}", model.getAbsolutePath());
-            return false;
+            throw new IllegalStateException("The file "+ model.getAbsolutePath() + " has errors.");
         }
 
         return !output.contains("NOT satisfied") && !output.contains("MAY be satisfied");
