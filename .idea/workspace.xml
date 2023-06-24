@@ -11,10 +11,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3052ae77-99f8-41f7-9edd-d002b1bcda3a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/VerifierScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/VerifierScheduler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +83,7 @@
       <recent name="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/gui/templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Help">
+  <component name="RunManager" selected="Application.Duplicates">
     <configuration name="Bisim" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
@@ -99,7 +95,7 @@
     <configuration name="Duplicates" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
-      <option name="PROGRAM_PARAMETERS" value="-model=src/main/resources/scheduling4.xml --equivalent --no-gui -op=all -csvb=reports/generic/scheduling4-eq-final.csv" />
+      <option name="PROGRAM_PARAMETERS" value="--model=src/main/resources/Tram.xml --duplicates --no-gui -op=all -csvb=reports/generic/tram-dup.csv" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -305,7 +301,8 @@
       <workItem from="1686864308299" duration="5563000" />
       <workItem from="1686874018057" duration="4677000" />
       <workItem from="1687101786343" duration="166000" />
-      <workItem from="1687192644581" duration="735000" />
+      <workItem from="1687192644581" duration="1211000" />
+      <workItem from="1687466912287" duration="22000" />
     </task>
     <servers />
   </component>
