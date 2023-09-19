@@ -11,30 +11,30 @@ import java.util.ArrayList;
 @Command(name = "NTAMorphosis", version = "0.1", mixinStandardHelpOptions = true)
 public class Main implements Runnable {
     enum STRATEGIES { random, biased }
-    @Option(names = {"--model"}, description = "Path to model's file.")
+    @Option(names = {"--model", "-m"}, description = "Path to model's file.")
     File model;
 
-    @Option(names = {"-op", "--operators"})
+    @Option(names = {"-op", "--operators"}, description = "List of operators to apply.")
     ArrayList<String> operators = new ArrayList<>();
 
-    @Option(names = {"-dir","--mutants-dir"}, description = "Path to directory where the mutants are.", defaultValue = "src/main/resources/mutations")
+    @Option(names = {"-dir","--mutants-dir"}, description = "Directory containing mutant files.", defaultValue = "src/main/resources/mutations")
     String outPath;
 
-    @Option(names = {"-csv","--csv-path"}, description = "Name and path to csv with TraceMatcher's result.", defaultValue = "traces-result.csv")
+    @Option(names = {"-csvt","--csv-traces"}, description = "Path to the output CSV file for TraceMatcher's results.", defaultValue = "traces-result.csv")
     String csvPath;
 
-    @Option(names = {"-csvb","--csv-bisim"}, description = "Name and path to csv for bisimulation result.", defaultValue = "results-bisim.csv")
+    @Option(names = {"-csvb","--csv-bisim"}, description = "Path to the output CSV file for bisimulation results.", defaultValue = "results-bisim.csv")
     String csvBisim;
 
     @Option(names = {"-eq", "--equivalent"}, description = "Compute bisimulation w/ respect to the original model.", defaultValue = "false")
     boolean getEquivalent;
 
-    @Option(names = {"-dup", "--duplicates"}, description = "Compute bisimulation between each mutant.", defaultValue = "false")
+    @Option(names = {"-dup", "--duplicates"}, description = "Compute bisimulation between mutants.", defaultValue = "false")
     boolean getDuplicates;
 
-    @Option(names = "--gui", description = "Use the gui. True by default.", defaultValue = "true", fallbackValue = "true", negatable = true)
+    @Option(names = "--gui", description = "Use the GUI.", defaultValue = "true", fallbackValue = "true", negatable = true)
     boolean gui;
-    @Option(names = "--how", description = "How to generate traces, one of: ${COMPLETION-CANDIDATES}", defaultValue = "biased")
+    @Option(names = "--how", description = " Trace generation strategy (options: ${COMPLETION-CANDIDATES}).", defaultValue = "biased")
     STRATEGIES strategy;
 
     public static void main(String[] args) {

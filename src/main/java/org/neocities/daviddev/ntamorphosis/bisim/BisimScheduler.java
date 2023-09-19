@@ -1,7 +1,7 @@
 package org.neocities.daviddev.ntamorphosis.bisim;
 
 import org.neocities.daviddev.ntamorphosis.workers.TracesProvider;
-import org.neocities.daviddev.simmdiff.entrypoint.Runner;
+import org.neocities.daviddev.tracematcher.entrypoint.Runner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +39,7 @@ public class BisimScheduler implements Supplier<Boolean> {
         try {
             logger.info("Waiting for bisimulation to return, {} {}", aFile.getName(), bFile.getName());
             Process p = pb.start();
-            p.waitFor();
+            p.waitFor(120, TimeUnit.MINUTES);
             result = new String(p.getInputStream().readAllBytes());
             if (result.isEmpty()) {
                 logger.error("Bisimulation algorithm returned empty string with files" +

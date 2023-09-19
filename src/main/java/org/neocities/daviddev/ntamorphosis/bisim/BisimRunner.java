@@ -50,7 +50,7 @@ public class BisimRunner {
         CompletableFuture<Boolean> verifyTAFuture = CompletableFuture.supplyAsync(
                 new VerifierScheduler("/home/david/.local/etc/uppaal64-4.1.26-2/bin-Linux/verifyta",mutantNTA)
                 , bisimService
-        ).completeOnTimeout(true, 5, TimeUnit.MINUTES)
+        ).completeOnTimeout(true, 15, TimeUnit.MINUTES)
         .exceptionally(ex -> {
             System.out.println("Got exception");
             return true;
@@ -61,7 +61,7 @@ public class BisimRunner {
                 return CompletableFuture.completedFuture(false);
             } else {
                 return CompletableFuture.supplyAsync(new BisimScheduler(a,b), bisimService)
-                        .completeOnTimeout(true, 1, TimeUnit.HOURS);
+                        .completeOnTimeout(true, 120, TimeUnit.MINUTES);
             }
         });
         addFuture(a, b, submitTime, bisimFuture);

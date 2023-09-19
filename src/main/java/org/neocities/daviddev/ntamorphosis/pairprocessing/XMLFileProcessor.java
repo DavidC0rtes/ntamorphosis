@@ -1,6 +1,6 @@
 package org.neocities.daviddev.ntamorphosis.pairprocessing;
 
-import org.neocities.daviddev.simmdiff.entrypoint.Runner;
+import org.neocities.daviddev.tracematcher.entrypoint.Runner;
 
 import java.io.File;
 import java.util.HashMap;
