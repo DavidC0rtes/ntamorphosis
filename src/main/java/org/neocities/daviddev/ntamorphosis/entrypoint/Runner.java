@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public class Runner {
-    private final String csvBisim;
+    private  String csvBisim;
     private String mutationsDir, csvTraces;
     private File model;
     private List<String> operators;
@@ -25,7 +25,7 @@ public class Runner {
     private ExecutorService executorService;
     private HashMap<String, String[]> resultsTron;
     private HashMap<String, String[]> resultsBisim;
-    private final BisimRunner bisimRunner;
+    private  BisimRunner bisimRunner;
     private enum tronHeaders {
         mutant1, mutant2, template, passed_test, diff_locations, explored_diffs, elapsed_time
     }
@@ -39,7 +39,7 @@ public class Runner {
         configureMutations(operators, model, mutationsDir);
         preProcess(preprocessor);
         bisimRunner = new BisimRunner(csvBisim);
-        prepareCSV();
+        prepareTracesCSV();
         execSimmDiffRRSingles(strategy);
     }
 
@@ -56,7 +56,6 @@ public class Runner {
 
         configureMutations(operators, model, mutationsDir);
     }
-
     private void configureMutations(List<String> operators, File model, String mutationsDir) {
         if (operators.size() > 0) { // do mutations
             this.mutationsDir = mutationsDir.concat(String.valueOf(System.currentTimeMillis()));
@@ -81,7 +80,7 @@ public class Runner {
             System.err.println("Failed to create compositions directory "+ mutationsDir + "/compositions");
             throw new RuntimeException(e);
         }
-
+        // compute the product for each generated mutant
         try {
             File directory = new File(mutationsDir);
             File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
@@ -145,7 +144,7 @@ public class Runner {
     }
 
     public void execBisimCheckEquivalent() {
-        File ntaProduct = preprocessor.computeNTAProduct(model, mutationsDir);
+        File ntaProduct = preprocessor.computeNTAProduct(model, mutationsDir); // product of the SUT
         File directory = new File(mutationsDir); // <-- points to compositions dir
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
         assert xmlFiles != null;
@@ -185,7 +184,7 @@ public class Runner {
         }
     }
 
-    private void prepareCSV() {
+    private void prepareTracesCSV() {
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
                 .setHeader(tronHeaders.class)
                 .build();

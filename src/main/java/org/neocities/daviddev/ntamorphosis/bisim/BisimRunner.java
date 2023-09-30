@@ -5,7 +5,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
-import org.neocities.daviddev.ntamorphosis.workers.TracesProvider;
+import org.neocities.daviddev.ntamorphosis.entrypoint.AppConfig;
 import org.neocities.daviddev.ntamorphosis.workers.VerifierScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,27 +47,27 @@ public class BisimRunner {
             System.exit(1);
         }
         File mutantNTA = new File(pathToMutant.toUri());
-        CompletableFuture<Boolean> verifyTAFuture = CompletableFuture.supplyAsync(
-                new VerifierScheduler("/home/david/.local/etc/uppaal64-4.1.26-2/bin-Linux/verifyta",mutantNTA)
+        CompletableFuture<String> verifyTAFuture = CompletableFuture.supplyAsync(
+                new VerifierScheduler(mutantNTA)
                 , bisimService
-        ).completeOnTimeout(true, 15, TimeUnit.MINUTES)
+        ).completeOnTimeout("timeout", 20, TimeUnit.MINUTES)
         .exceptionally(ex -> {
-            System.out.println("Got exception");
-            return true;
+            System.out.println("Got exception" + ex.getMessage());
+            return "true";
         });
 
-        CompletableFuture<Boolean> bisimFuture = verifyTAFuture.thenComposeAsync(satisfied -> {
-            if (!satisfied) {
-                return CompletableFuture.completedFuture(false);
+        CompletableFuture<String> bisimFuture = verifyTAFuture.thenComposeAsync(satisfied -> {
+            if (satisfied.equals("false")) {
+                return CompletableFuture.completedFuture("false");
             } else {
                 return CompletableFuture.supplyAsync(new BisimScheduler(a,b), bisimService)
-                        .completeOnTimeout(true, 120, TimeUnit.MINUTES);
+                        .completeOnTimeout("timeout", 120, TimeUnit.MINUTES);
             }
         });
         addFuture(a, b, submitTime, bisimFuture);
     }
 
-    private void addFuture(File a, File b, long start, CompletableFuture<Boolean> bisimFuture) {
+    private void addFuture(File a, File b, long start, CompletableFuture<String> bisimFuture) {
         futures.add(
                 bisimFuture.thenAcceptAsync(bisimilar -> {
                     long end = System.currentTimeMillis();

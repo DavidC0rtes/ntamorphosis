@@ -1,5 +1,6 @@
 package org.neocities.daviddev.ntamorphosis;
 
+import org.neocities.daviddev.ntamorphosis.entrypoint.AppConfig;
 import org.neocities.daviddev.ntamorphosis.entrypoint.Runner;
 import org.neocities.daviddev.ntamorphosis.gui.Invoker;
 import picocli.CommandLine.*;
@@ -8,7 +9,7 @@ import picocli.CommandLine;
 import java.io.File;
 import java.util.ArrayList;
 
-@Command(name = "NTAMorphosis", version = "0.1", mixinStandardHelpOptions = true)
+@Command(name = "NTAMorphosis", version = "1.0", mixinStandardHelpOptions = true)
 public class Main implements Runnable {
     enum STRATEGIES { random, biased }
     @Option(names = {"--model", "-m"}, description = "Path to model's file.")
@@ -32,7 +33,7 @@ public class Main implements Runnable {
     @Option(names = {"-dup", "--duplicates"}, description = "Compute bisimulation between mutants.", defaultValue = "false")
     boolean getDuplicates;
 
-    @Option(names = "--gui", description = "Use the GUI.", defaultValue = "true", fallbackValue = "true", negatable = true)
+    @Option(names = "--gui", description = "Use the GUI.", defaultValue = "false", fallbackValue = "false", negatable = true)
     boolean gui;
     @Option(names = "--how", description = " Trace generation strategy (options: ${COMPLETION-CANDIDATES}).", defaultValue = "biased")
     STRATEGIES strategy;

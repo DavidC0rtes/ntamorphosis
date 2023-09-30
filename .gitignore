@@ -17,6 +17,7 @@ reports/**/src
 *.iws
 *.iml
 *.ipr
+*.properties
 
 ### Eclipse ###
 .apt_generated
