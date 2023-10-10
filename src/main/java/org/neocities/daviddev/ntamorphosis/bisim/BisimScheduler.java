@@ -50,7 +50,7 @@ public class BisimScheduler implements Supplier<String> {
 
     private String waitForBisimulation(Process process) {
         try {
-            logger.info("Waiting for bisimulation to return, {} {}", aFile.getName(), bFile.getName());
+            //logger.info("Waiting for bisimulation to return, {} {}", aFile.getName(), bFile.getName());
             String veredict = "";
             if (process.waitFor(120, TimeUnit.MINUTES)) {
                 veredict = new String(process.getInputStream().readAllBytes());

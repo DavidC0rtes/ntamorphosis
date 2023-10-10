@@ -35,7 +35,7 @@ public class VerifierScheduler implements Supplier<String> {
         Process process = null;
         try {
             process = processBuilder.start();
-            logger.info("Waiting for verifyta to return on file {}", model.getAbsolutePath());
+            //logger.info("Waiting for verifyta to return on file {}", model.getAbsolutePath());
             if (process.waitFor(20, TimeUnit.MINUTES)) {
                 result = String.valueOf(parseStream(process));
             } else {

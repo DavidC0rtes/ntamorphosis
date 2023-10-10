@@ -5,7 +5,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
-import org.neocities.daviddev.ntamorphosis.entrypoint.AppConfig;
 import org.neocities.daviddev.ntamorphosis.workers.VerifierScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,13 +38,19 @@ public class BisimRunner {
     }
 
     public void scheduleJob(File a, File b) {
-        long submitTime = System.currentTimeMillis();
-        // File a is the product of the mutant, for verifyta, we need to pass the original version of the mutant
-        Path pathToMutant = Paths.get(a.getParentFile().getParent() + "/" + a.getName());
-        if (!Files.exists(pathToMutant)) {
-            logger.error("Mutant {} does not exist, or the path is wrong.", pathToMutant);
-            System.exit(1);
+        long submitTime = System.nanoTime();
+
+        Path pathToMutant = Paths.get(a.getPath());
+        if (a.getAbsolutePath().contains("compositions")) {
+            // File 'a' is the product of the mutant, for verifyta, we need to pass the original version of the mutant
+            pathToMutant = Paths.get(a.getParentFile().getParent() + "/" + a.getName());
+
+            if (!Files.exists(pathToMutant)) {
+                logger.error("Mutant {} does not exist, or the path is wrong.", pathToMutant);
+                System.exit(1);
+            }
         }
+
         File mutantNTA = new File(pathToMutant.toUri());
         CompletableFuture<String> verifyTAFuture = CompletableFuture.supplyAsync(
                 new VerifierScheduler(mutantNTA)
@@ -70,7 +75,7 @@ public class BisimRunner {
     private void addFuture(File a, File b, long start, CompletableFuture<String> bisimFuture) {
         futures.add(
                 bisimFuture.thenAcceptAsync(bisimilar -> {
-                    long end = System.currentTimeMillis();
+                    long end = System.nanoTime();
                     writeResultRow(
                             a.getName(),
                             b.getName(),

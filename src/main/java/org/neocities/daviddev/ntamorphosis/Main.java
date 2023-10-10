@@ -1,6 +1,5 @@
 package org.neocities.daviddev.ntamorphosis;
 
-import org.neocities.daviddev.ntamorphosis.entrypoint.AppConfig;
 import org.neocities.daviddev.ntamorphosis.entrypoint.Runner;
 import org.neocities.daviddev.ntamorphosis.gui.Invoker;
 import picocli.CommandLine.*;
@@ -22,7 +21,7 @@ public class Main implements Runnable {
     String outPath;
 
     @Option(names = {"-csvt","--csv-traces"}, description = "Path to the output CSV file for TraceMatcher's results.", defaultValue = "traces-result.csv")
-    String csvPath;
+    String csvTracesPath;
 
     @Option(names = {"-csvb","--csv-bisim"}, description = "Path to the output CSV file for bisimulation results.", defaultValue = "results-bisim.csv")
     String csvBisim;
@@ -32,6 +31,10 @@ public class Main implements Runnable {
 
     @Option(names = {"-dup", "--duplicates"}, description = "Compute bisimulation between mutants.", defaultValue = "false")
     boolean getDuplicates;
+    @Option(names = {"-t", "--traces"}, description = "Compute traces inclusion", defaultValue = "false")
+    boolean traces;
+    @Option(names = {"--td", "--traces-dir"}, description = "Directory to store the generated traces.", defaultValue = "traces")
+    String tracesDir;
 
     @Option(names = "--gui", description = "Use the GUI.", defaultValue = "false", fallbackValue = "false", negatable = true)
     boolean gui;
@@ -51,12 +54,14 @@ public class Main implements Runnable {
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
         if (gui) {
             new Invoker();
+        } else if (traces) {
+            new Runner(outPath, csvTracesPath, strategy.toString(), tracesDir);
         } else if (getEquivalent || getDuplicates) { // hacer mutaciones y equivalentes
             Runner runner = new Runner(operators, model, outPath, csvBisim);
             if (getDuplicates) runner.checkDuplicates();
             if (getEquivalent) runner.execBisimCheckEquivalent();
         } else { // hacer bisim y trazas (con)sin mutaciones, interpertar operadores.
-            new Runner(operators, model, outPath, csvPath, csvBisim, strategy.toString());
+            new Runner(operators, model, outPath, csvTracesPath, csvBisim, strategy.toString());
         }
     }
 }

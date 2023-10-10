@@ -12,13 +12,15 @@
     <list default="true" id="3052ae77-99f8-41f7-9edd-d002b1bcda3a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/generic/sched-dup-paper.csv" beforeDir="false" afterPath="$PROJECT_DIR$/reports/generic/sched-dup-paper.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/generic/sched-paper.csv" beforeDir="false" afterPath="$PROJECT_DIR$/reports/generic/sched-paper.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimScheduler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/AppConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/TracesProvider.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/VerifierScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/VerifierScheduler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/GC2/GearBisimReport.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +72,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.07818608&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.28719723&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -92,11 +94,19 @@
       <recent name="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/gui/templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Duplicates">
+  <component name="RunManager" selected="Application.Bisim">
     <configuration name="Bisim" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
-      <option name="PROGRAM_PARAMETERS" value="-m=src/main/resources/scheduling4.xml -op=delSync -dup -csvb=reports/generic/sched-dup-paper.csv" />
+      <option name="PROGRAM_PARAMETERS" value="-m=src/main/resources/cgc.xml -dup -csvb=reports/generic/cgc-bisim.csv -dir=src/main/resources/CombinedModel" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Bisim&amp;Traces" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
+      <module name="NTAMorphosis" />
+      <option name="PROGRAM_PARAMETERS" value="-dir=src/main/resources/CombinedModel -csvt=reports/generic/cgc-traces.csv -csvb=reports/generic/cgc-bisim.csv -m=src/main/resources/cgc.xml" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -109,18 +119,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Help" type="Application" factoryName="Application">
+    <configuration name="Traces" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
-      <option name="PROGRAM_PARAMETERS" value="--help" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Main" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
-      <module name="NTAMorphosis" />
-      <option name="PROGRAM_PARAMETERS" value="-p=src/main/resources/GC2 -csv=reports/GC2/random_traces.csv -csvb=reports/GC2/results_bisim_random.csv -gui=false -how=random" />
+      <option name="PROGRAM_PARAMETERS" value="--traces --td=traces-cgc --how=biased -dir=src/main/resources/CombinedModel -csvt=reports/generic/traces-cgc-paper.csv" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -133,9 +135,9 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Bisim&amp;Traces" />
+      <item itemvalue="Application.Traces" />
       <item itemvalue="Application.Duplicates" />
-      <item itemvalue="Application.Help" />
-      <item itemvalue="Application.Main" />
       <item itemvalue="Application.gui" />
       <item itemvalue="Application.Bisim" />
     </list>
@@ -339,7 +341,31 @@
       <workItem from="1695950965651" duration="1422000" />
       <workItem from="1695967662805" duration="5244000" />
       <workItem from="1696084905502" duration="1541000" />
-      <workItem from="1696105116380" duration="2694000" />
+      <workItem from="1696105116380" duration="3855000" />
+      <workItem from="1696189279350" duration="1389000" />
+      <workItem from="1696215906188" duration="11056000" />
+      <workItem from="1696244151384" duration="800000" />
+      <workItem from="1696268301713" duration="1440000" />
+      <workItem from="1696283466382" duration="37444000" />
+      <workItem from="1696381813357" duration="3595000" />
+      <workItem from="1696389481473" duration="423000" />
+      <workItem from="1696463155217" duration="110000" />
+      <workItem from="1696463275001" duration="202000" />
+      <workItem from="1696463490774" duration="122000" />
+      <workItem from="1696463622378" duration="77000" />
+      <workItem from="1696473849270" duration="5291000" />
+      <workItem from="1696520869375" duration="53000" />
+      <workItem from="1696521268866" duration="4350000" />
+      <workItem from="1696527623498" duration="3730000" />
+      <workItem from="1696553957005" duration="40000" />
+      <workItem from="1696561253479" duration="697000" />
+      <workItem from="1696575104103" duration="1025000" />
+      <workItem from="1696576349843" duration="10195000" />
+      <workItem from="1696622868856" duration="2662000" />
+      <workItem from="1696782320019" duration="513000" />
+      <workItem from="1696786827731" duration="1396000" />
+      <workItem from="1696884876972" duration="226000" />
+      <workItem from="1696885114559" duration="3456000" />
     </task>
     <servers />
   </component>

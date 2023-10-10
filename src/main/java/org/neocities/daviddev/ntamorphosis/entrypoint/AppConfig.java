@@ -22,4 +22,5 @@ public class AppConfig {
     public static AppConfig getInstance() { return INSTANCE; }
     public String getBisimPath() { return properties.getProperty("bisimulationpath"); }
     public String getVerifyTAPath() { return properties.getProperty("verifytapath"); }
+    public String getTronPath() { return properties.getProperty("tronpath"); }
 }
