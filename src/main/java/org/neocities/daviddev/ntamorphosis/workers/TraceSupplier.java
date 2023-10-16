@@ -22,12 +22,23 @@ public class TraceSupplier{
         this.tracesDir = tracesDir;
     }
 
+
     /**
      *
      * @return String[] representing a row to be written in the traces csv.
      */
     public String[] get() {
         HashMap<String, String[]> result = runTracesSimulation();
+
+        return hashMapToString(result);
+    }
+
+    /**
+     *
+     * @return String[] representing a row to be written in the traces csv.
+     */
+    public String[] getRandom (int n, int k) {
+        HashMap<String, String[]> result = runRandTracesSimulation(n,k);
 
         return hashMapToString(result);
     }
@@ -45,6 +56,21 @@ public class TraceSupplier{
         runner1.simulateTraces();
         return runner1.getTracesResult();
     }
+    private HashMap<String, String[]> runRandTracesSimulation(int nTraces, int timeBound) {
+        Runner runner1 = new Runner(
+                model1, model2,
+                AppConfig.getInstance().getTronPath(),
+                AppConfig.getInstance().getVerifyTAPath(),
+                tracesDir
+        );
+        runner1.parseModels();
+        runner1.computeRandomTraces(propDir, nTraces, timeBound);
+        runner1.parseTraces(strategy);
+        runner1.simulateTraces();
+        return runner1.getTracesResult();
+    }
+
+
     private String[] hashMapToString(HashMap<String, String[]> hashMap) {
         if (hashMap.size() > 1) {
             System.out.printf("Hashmap has %d entries\n", hashMap.size());

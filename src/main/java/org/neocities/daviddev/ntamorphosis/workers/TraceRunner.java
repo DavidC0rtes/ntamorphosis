@@ -36,6 +36,12 @@ public class TraceRunner {
         //futures.add(traceFuture);
     }
 
+    public void runRandomTrace(File a, File b, String propDir, int n, int k) {
+        TraceSupplier ts = new TraceSupplier(a,b,strategy, propDir, tracesDir);
+        writeResultRow(ts.getRandom(n, k));
+    }
+
+
     private synchronized void writeResultRow(String[] row) {
         if (row.length > 0 && !String.join("", row).isBlank()) {
             try (CSVPrinter printer = new CSVPrinter(new FileWriter(pathToCsv, true), CSVFormat.DEFAULT)){

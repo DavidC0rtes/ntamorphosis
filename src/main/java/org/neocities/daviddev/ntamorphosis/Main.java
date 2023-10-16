@@ -41,6 +41,17 @@ public class Main implements Runnable {
     @Option(names = "--how", description = " Trace generation strategy (options: ${COMPLETION-CANDIDATES}).", defaultValue = "biased")
     STRATEGIES strategy;
 
+    @CommandLine.ArgGroup(exclusive = false)
+    RandTracesArgs randTracesArgs;
+
+    static class RandTracesArgs {
+        @Option(names = {"-n", "--n-traces"}, description = "No. of traces in case of doing random approach")
+        int nTraces;
+
+        @Option(names = {"-k", "--time-bound"}, description = "Upper time bound in case of doing random approach")
+        int timeBound;
+    }
+
     public static void main(String[] args) {
         CommandLine commandLine = new CommandLine(new Main());
         commandLine.setCaseInsensitiveEnumValuesAllowed(true);
@@ -55,13 +66,24 @@ public class Main implements Runnable {
         if (gui) {
             new Invoker();
         } else if (traces) {
-            new Runner(outPath, csvTracesPath, strategy.toString(), tracesDir);
+            Runner runner = new Runner(outPath, csvTracesPath, strategy.toString(), tracesDir);
+            if (strategy.equals(STRATEGIES.random)) {
+                runner.setnTraces(randTracesArgs.nTraces);
+                runner.setTimeBound(randTracesArgs.timeBound);
+            }
+            runner.execTraceMatchRRSingles(strategy.toString());
         } else if (getEquivalent || getDuplicates) { // hacer mutaciones y equivalentes
             Runner runner = new Runner(operators, model, outPath, csvBisim);
             if (getDuplicates) runner.checkDuplicates();
             if (getEquivalent) runner.execBisimCheckEquivalent();
         } else { // hacer bisim y trazas (con)sin mutaciones, interpertar operadores.
-            new Runner(operators, model, outPath, csvTracesPath, csvBisim, strategy.toString());
+            System.out.println("hey3");
+            Runner runner = new Runner(operators, model, outPath, csvTracesPath, csvBisim, strategy.toString());
+            if (strategy.equals(STRATEGIES.random)) {
+                System.out.println("hey");
+                runner.setnTraces(randTracesArgs.nTraces);
+                runner.setTimeBound(randTracesArgs.timeBound);
+            }
         }
     }
 }

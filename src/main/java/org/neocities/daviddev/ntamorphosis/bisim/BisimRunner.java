@@ -31,7 +31,7 @@ public class BisimRunner {
     private final String pathToCsv;
 
     public BisimRunner(String pathToCsv) {
-        bisimService = Executors.newFixedThreadPool(5);
+        bisimService = Executors.newFixedThreadPool(4);
         results = Multimaps.synchronizedMultimap(ArrayListMultimap.create());
         this.pathToCsv=pathToCsv;
         futures = new ArrayList<>();

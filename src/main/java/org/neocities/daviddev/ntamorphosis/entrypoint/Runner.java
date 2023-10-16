@@ -28,6 +28,24 @@ public class Runner {
     private HashMap<String, String[]> resultsBisim;
     private  BisimRunner bisimRunner;
     private String tracesDir;
+
+    public int getnTraces() {
+        return nTraces;
+    }
+
+    public void setnTraces(int nTraces) {
+        this.nTraces = nTraces;
+    }
+
+    public int getTimeBound() {
+        return timeBound;
+    }
+
+    public void setTimeBound(int timeBound) {
+        this.timeBound = timeBound;
+    }
+
+    private int nTraces,timeBound;
     private enum tronHeaders {
         mutant1, mutant2, template, passed_test, diff_locations, explored_diffs, elapsed_time_ms
     }
@@ -74,7 +92,6 @@ public class Runner {
         resultsTron = new HashMap<>();
         this.tracesDir = tracesDir;
         prepareTracesCSV();
-        execTraceMatchRRSingles(strategy);
     }
 
     private void configureMutations(List<String> operators, File model, String mutationsDir) {
@@ -188,7 +205,7 @@ public class Runner {
         executorService.shutdown();
     }
 
-    private void execTraceMatchRRSingles(String strategy) {
+    public void execTraceMatchRRSingles(String strategy) {
         File directory = new File(mutationsDir);
         File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
         assert xmlFiles != null;
@@ -196,8 +213,14 @@ public class Runner {
         TraceRunner traceRunner = new TraceRunner(strategy, csvTraces, tracesDir);
         for (int i = 0; i < Objects.requireNonNull(xmlFiles).length - 1; i++) {
             for (int j = i + 1; j < xmlFiles.length; j++) {
-                traceRunner.runTrace(xmlFiles[i], xmlFiles[j], mutationsDir);
-                traceRunner.runTrace(xmlFiles[j], xmlFiles[i], mutationsDir);
+                if (strategy.equals("biased")) {
+                    traceRunner.runTrace(xmlFiles[i], xmlFiles[j], mutationsDir);
+                    traceRunner.runTrace(xmlFiles[j], xmlFiles[i], mutationsDir);
+                } else {
+                    traceRunner.runRandomTrace(xmlFiles[i], xmlFiles[j], mutationsDir, nTraces, timeBound);
+                    traceRunner.runRandomTrace(xmlFiles[j], xmlFiles[i], mutationsDir, nTraces, timeBound);
+                }
+
             }
         }
     }
