@@ -11,16 +11,26 @@
   <component name="ChangeListManager">
     <list default="true" id="3052ae77-99f8-41f7-9edd-d002b1bcda3a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/generic/bisim-ca.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/generic/bisim-tgc.csv" beforeDir="false" afterPath="$PROJECT_DIR$/reports/generic/bisim-tgc.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/generic/traces-ca-paper.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/generic/traces-cgc-paper.csv" beforeDir="false" afterPath="$PROJECT_DIR$/reports/generic/traces-cgc-paper.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/generic/traces-cgc-paper2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/generic/traces-gc-paper.csv" beforeDir="false" afterPath="$PROJECT_DIR$/reports/generic/traces-gc-paper.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/generic/traces-tg-paper.csv" beforeDir="false" afterPath="$PROJECT_DIR$/reports/generic/traces-tg-paper.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/prueba/prop.q" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/prueba/tadSyncid1id2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/prueba/tadSyncid4id1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/prueba/tmi1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/prueba/tmi9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/prueba/traces_collision.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimScheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/AppConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/entrypoint/Runner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/pairprocessing/XMLFileProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/TracesProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/VerifierScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/VerifierScheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/GC2/GearBisimReport.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/TraceRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/TraceRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/TraceSupplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/workers/TraceSupplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/GearControl/GearBisimReport.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/collision/CollisionBisimReport.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,8 +72,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
     &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;grid.search.filter.rows&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/david/Documents/UppaalMutants/out/artifacts/MutationUppaal_jar/MutationUppaal.jar&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/david/Documents/NTAMorphosis/src/main/resources/TGC&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -72,7 +81,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.07818608&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.28719723&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -94,11 +103,11 @@
       <recent name="$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/gui/templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Bisim">
-    <configuration name="Bisim" type="Application" factoryName="Application">
+  <component name="RunManager" selected="Application.Duplicates">
+    <configuration name="BiasedTraces" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
-      <option name="PROGRAM_PARAMETERS" value="-m=src/main/resources/cgc.xml -dup -csvb=reports/generic/cgc-bisim.csv -dir=src/main/resources/CombinedModel" />
+      <option name="PROGRAM_PARAMETERS" value="--traces --td=traces-vn --how=biased -dir=src/main/resources/VN -csvt=reports/generic/traces-vn-nta.csv" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -114,32 +123,33 @@
     <configuration name="Duplicates" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
-      <option name="PROGRAM_PARAMETERS" value="-m=src/main/resources/Gear-control.xml -op=delSync -eq -csvb=reports/generic/gear-eq-paper.csv" />
+      <option name="PROGRAM_PARAMETERS" value="-m=src/main/resources/ventilator-alt.xml -dir=src/main/resources/VN -dup -csvb=reports/generic/vn-dups-nta.csv" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Traces" type="Application" factoryName="Application">
+    <configuration name="Equivalents" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
-      <option name="PROGRAM_PARAMETERS" value="--traces --td=traces-cgc --how=biased -dir=src/main/resources/CombinedModel -csvt=reports/generic/traces-cgc-paper.csv" />
+      <option name="PROGRAM_PARAMETERS" value="-m=src/main/resources/Collision-avoidance.xml -dup -csvb=reports/generic/ca-bisim-nta-dup.csv -dir=src/main/resources/CA-mutants" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="gui" type="Application" factoryName="Application">
+    <configuration name="RandomTraces" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.neocities.daviddev.ntamorphosis.Main" />
       <module name="NTAMorphosis" />
+      <option name="PROGRAM_PARAMETERS" value="--traces --td=traces-ca --how=random -dir=src/main/resources/collision -csvt=reports/generic/randtraces-ca-paper.csv -n=10 -k=1000" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Equivalents" />
+      <item itemvalue="Application.BiasedTraces" />
       <item itemvalue="Application.Bisim&amp;Traces" />
-      <item itemvalue="Application.Traces" />
       <item itemvalue="Application.Duplicates" />
-      <item itemvalue="Application.gui" />
-      <item itemvalue="Application.Bisim" />
+      <item itemvalue="Application.RandomTraces" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -366,6 +376,63 @@
       <workItem from="1696786827731" duration="1396000" />
       <workItem from="1696884876972" duration="226000" />
       <workItem from="1696885114559" duration="3456000" />
+      <workItem from="1696973248480" duration="654000" />
+      <workItem from="1696987465471" duration="16000" />
+      <workItem from="1697045672213" duration="319000" />
+      <workItem from="1697056269271" duration="302000" />
+      <workItem from="1697056601296" duration="37000" />
+      <workItem from="1697064713648" duration="1898000" />
+      <workItem from="1697090433881" duration="99000" />
+      <workItem from="1697123322005" duration="314000" />
+      <workItem from="1697153710539" duration="4423000" />
+      <workItem from="1697219542219" duration="13157000" />
+      <workItem from="1697310524244" duration="172000" />
+      <workItem from="1697325878610" duration="15000" />
+      <workItem from="1697384325724" duration="122000" />
+      <workItem from="1697390379075" duration="19838000" />
+      <workItem from="1697431558835" duration="121000" />
+      <workItem from="1697513287805" duration="187000" />
+      <workItem from="1697513768741" duration="121000" />
+      <workItem from="1697513900477" duration="4560000" />
+      <workItem from="1697564690696" duration="7418000" />
+      <workItem from="1697596270667" duration="104000" />
+      <workItem from="1697596768760" duration="11000" />
+      <workItem from="1697596834740" duration="813000" />
+      <workItem from="1697608037892" duration="1970000" />
+      <workItem from="1697610062260" duration="4188000" />
+      <workItem from="1697670485405" duration="2716000" />
+      <workItem from="1697686125836" duration="7068000" />
+      <workItem from="1697730167617" duration="85000" />
+      <workItem from="1697761737474" duration="617000" />
+      <workItem from="1698079368052" duration="427000" />
+      <workItem from="1698088788383" duration="89000" />
+      <workItem from="1698104746522" duration="37000" />
+      <workItem from="1698195128717" duration="3937000" />
+      <workItem from="1698202409786" duration="30000" />
+      <workItem from="1698279207163" duration="81000" />
+      <workItem from="1698279319567" duration="34000" />
+      <workItem from="1698279750751" duration="13000" />
+      <workItem from="1699232194482" duration="202000" />
+      <workItem from="1699325392931" duration="1035000" />
+      <workItem from="1699405178236" duration="1000" />
+      <workItem from="1699752717893" duration="2114000" />
+      <workItem from="1699821963116" duration="514000" />
+      <workItem from="1699885865953" duration="18535000" />
+      <workItem from="1700323988779" duration="737000" />
+      <workItem from="1700410233514" duration="15000" />
+      <workItem from="1700412115795" duration="1275000" />
+      <workItem from="1700843525008" duration="2971000" />
+      <workItem from="1700858185270" duration="2366000" />
+      <workItem from="1701025244172" duration="877000" />
+      <workItem from="1701056539018" duration="875000" />
+      <workItem from="1701309271381" duration="2711000" />
+      <workItem from="1701402802833" duration="614000" />
+      <workItem from="1701637343694" duration="330000" />
+      <workItem from="1701641196500" duration="788000" />
+      <workItem from="1702053728020" duration="35372000" />
+      <workItem from="1702344703793" duration="4585000" />
+      <workItem from="1702441690986" duration="356000" />
+      <workItem from="1702442056035" duration="9653000" />
     </task>
     <servers />
   </component>
@@ -386,6 +453,11 @@
           <properties class="java.lang.StackOverflowError" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/neocities/daviddev/ntamorphosis/bisim/BisimRunner.java</url>
+          <line>179</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

@@ -5,7 +5,6 @@ import com.google.common.collect.Sets;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.neocities.daviddev.ntamorphosis.bisim.BisimRunner;
-import org.neocities.daviddev.ntamorphosis.pairprocessing.XMLFileProcessor;
 import org.neocities.daviddev.ntamorphosis.workers.Preprocessor;
 import org.neocities.daviddev.ntamorphosis.workers.TraceRunner;
 
@@ -14,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -110,12 +110,21 @@ public class Runner {
 //            computeCompositions();
 //            this.mutationsDir += "/compositions";
         }
+        checkDir(this.mutationsDir);
     }
 
-    private void createCompositionsDir() {
+    private void checkDir(String strPath) {
+        Path path = Paths.get(strPath);
+        if (!Files.isDirectory(path)) {
+            throw new IllegalArgumentException(strPath + " is not a valid directory.");
+        }
+    }
+
+    private Path createCompositionsDir() {
         // Create directory for compositions
         try {
-            Files.createDirectories(Path.of(mutationsDir + "/compositions"));
+            Path compositionsDir = Files.createDirectories(Path.of(mutationsDir + "/compositions"));
+            return compositionsDir;
         } catch (IOException e) {
             System.err.println("Failed to create compositions directory "+ mutationsDir + "/compositions");
             throw new RuntimeException(e);
@@ -200,7 +209,6 @@ public class Runner {
                 wrapUp(tronTask);
             }
         }
-
         bisimRunner.shutdownJobs();
         executorService.shutdown();
     }
@@ -223,18 +231,19 @@ public class Runner {
 
             }
         }
+        traceRunner.shutdownJobs();
     }
-
-
     public void execBisimCheckEquivalent() {
-        File ntaProduct = preprocessor.computeNTAProduct(model, mutationsDir); // product of the SUT
-        File directory = new File(mutationsDir); // <-- points to compositions dir
-        File[] xmlFiles = directory.listFiles((dir, name) -> name.endsWith(".xml"));
+        //Path dir = createCompositionsDir();
+        //computeCompositions();
+        //File ntaProduct = preprocessor.computeNTAProduct(model, mutationsDir + "/compositions"); // product of the SUT
+       File[] xmlFiles = new File(mutationsDir).listFiles((x, name) -> name.endsWith(".xml"));
         assert xmlFiles != null;
+        //File composedModel = new File(dir +"/"+model.getName());
         for (int i = 0; i < Objects.requireNonNull(xmlFiles).length; i++) {
             File file1 = xmlFiles[i];
-            if (!file1.getName().equals(ntaProduct.getName())) {
-                bisimRunner.scheduleJob(file1, ntaProduct);
+            if (!file1.getName().equals(model.getName())) {
+                bisimRunner.scheduleJob(file1, model);
             }
         }
         bisimRunner.shutdownJobs();
@@ -248,9 +257,7 @@ public class Runner {
         Set<Set<File>> pairs = Sets.combinations(Sets.newHashSet(xmlFiles), 2);
         pairs.forEach(pair -> {
             File[] files = pair.toArray(new File[2]);
-            // don't care about the model
-            if (!files[0].getName().equals(model.getName()) && !files[1].getName().equals(model.getName()))
-                bisimRunner.scheduleJob(files[0], files[1]);
+            bisimRunner.scheduleJob(files[0], files[1]);
         });
         bisimRunner.shutdownJobs();
         executorService.shutdown();

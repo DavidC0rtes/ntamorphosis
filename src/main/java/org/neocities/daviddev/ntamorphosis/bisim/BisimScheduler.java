@@ -19,6 +19,11 @@ public class BisimScheduler implements Supplier<String> {
         template = "";
     }
 
+    public  BisimScheduler(File a, File b, String template) {
+        aFile = a; bFile = b;
+        this.template = template;
+    }
+
     @Override
     public String get() {
         Process process = startBisimulationProcess();
@@ -34,11 +39,13 @@ public class BisimScheduler implements Supplier<String> {
 
     private Process startBisimulationProcess() {
         String bisimPath = AppConfig.getInstance().getBisimPath();
+        //logger.info("Starting bisimulation for {} and {} template: {}",aFile,bFile, template);
         try {
             ProcessBuilder pb = new ProcessBuilder("java", "-jar",
                     bisimPath,
                     aFile.getAbsolutePath(),
-                    bFile.getAbsolutePath()
+                    bFile.getAbsolutePath(),
+                    template
             ).redirectErrorStream(true);
 
             return pb.start();
@@ -50,9 +57,9 @@ public class BisimScheduler implements Supplier<String> {
 
     private String waitForBisimulation(Process process) {
         try {
-            //logger.info("Waiting for bisimulation to return, {} {}", aFile.getName(), bFile.getName());
+            logger.info("Waiting for bisimulation to return, {} {}", aFile.getAbsolutePath(), bFile.getAbsolutePath());
             String veredict = "";
-            if (process.waitFor(120, TimeUnit.MINUTES)) {
+            if (process.waitFor(60, TimeUnit.MINUTES)) {
                 veredict = new String(process.getInputStream().readAllBytes());
                 if (veredict.isEmpty()) {
                     logger.error("Bisimulation algorithm returned empty string with files" +

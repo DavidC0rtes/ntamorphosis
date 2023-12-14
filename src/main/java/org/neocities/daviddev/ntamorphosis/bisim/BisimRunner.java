@@ -1,10 +1,13 @@
 package org.neocities.daviddev.ntamorphosis.bisim;
 
+import be.unamur.uppaal.juppaal.Automaton;
+import be.unamur.uppaal.juppaal.NTA;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.neocities.daviddev.ntamorphosis.entrypoint.AppConfig;
 import org.neocities.daviddev.ntamorphosis.workers.VerifierScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,15 +15,10 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.*;
 
 public class BisimRunner {
@@ -29,7 +27,7 @@ public class BisimRunner {
     private final List<CompletableFuture> futures;
     private static final Logger logger = LoggerFactory.getLogger(BisimRunner.class);
     private final String pathToCsv;
-
+    private Set<String> writtenTemplates = new HashSet<>();
     public BisimRunner(String pathToCsv) {
         bisimService = Executors.newFixedThreadPool(4);
         results = Multimaps.synchronizedMultimap(ArrayListMultimap.create());
@@ -37,53 +35,71 @@ public class BisimRunner {
         futures = new ArrayList<>();
     }
 
+    /**
+     * Schedules a bisimulation call between two UPPAAL model files (as XML). With the assumption that they
+     * are related (model and mutant, or 2 mutants of the same model).
+     * @param a UPPAAL model as xml
+     * @param b UPPAAL model as xml
+     */
     public void scheduleJob(File a, File b) {
+
+        CompletableFuture<Boolean> resultA = CompletableFuture.supplyAsync(() -> execVerifyTa(AppConfig.getInstance().getVerifyTAPath(), a), bisimService);
+        CompletableFuture<Boolean> resultB = CompletableFuture.supplyAsync(() -> execVerifyTa(AppConfig.getInstance().getVerifyTAPath(), b), bisimService);
+
+        // Wait for both tasks to finish
         long submitTime = System.nanoTime();
-
-        Path pathToMutant = Paths.get(a.getPath());
-        if (a.getAbsolutePath().contains("compositions")) {
-            // File 'a' is the product of the mutant, for verifyta, we need to pass the original version of the mutant
-            pathToMutant = Paths.get(a.getParentFile().getParent() + "/" + a.getName());
-
-            if (!Files.exists(pathToMutant)) {
-                logger.error("Mutant {} does not exist, or the path is wrong.", pathToMutant);
-                System.exit(1);
-            }
+        CompletableFuture.allOf(resultA, resultB).join();
+        // Combine results
+        boolean combinedResult;
+        try {
+            combinedResult = resultA.get() == resultB.get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
         }
+        if (!combinedResult) {
+            NTA nta1 = new NTA(a.getAbsolutePath());
+            int cap = nta1.getAutomata().size();
 
-        File mutantNTA = new File(pathToMutant.toUri());
-        CompletableFuture<String> verifyTAFuture = CompletableFuture.supplyAsync(
-                new VerifierScheduler(mutantNTA)
-                , bisimService
-        ).completeOnTimeout("timeout", 20, TimeUnit.MINUTES)
-        .exceptionally(ex -> {
-            System.out.println("Got exception" + ex.getMessage());
-            return "true";
-        });
-
-        CompletableFuture<String> bisimFuture = verifyTAFuture.thenComposeAsync(satisfied -> {
-            if (satisfied.equals("false")) {
-                return CompletableFuture.completedFuture("false");
-            } else {
-                return CompletableFuture.supplyAsync(new BisimScheduler(a,b), bisimService)
-                        .completeOnTimeout("timeout", 120, TimeUnit.MINUTES);
+            for (Automaton ta : nta1.getAutomata()) {
+                //long submitTime = System.nanoTime();
+                String templateName = ta.getName().toString();
+                if (!writtenTemplates.contains(a.getName()+b.getName())) {
+                    CompletableFuture<String> bisimFuture = CompletableFuture.supplyAsync(
+                            new BisimScheduler(a,b, templateName), bisimService
+                    );
+                    cap--; // how many templates left?
+                    addFuture(a, b, submitTime, bisimFuture, cap);
+                }
             }
-        });
-        addFuture(a, b, submitTime, bisimFuture);
+        } else {
+            long end = System.nanoTime();
+            writeResultRow(a.getName(), b.getName(), String.valueOf(combinedResult),
+                    Instant.ofEpochMilli(submitTime).atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                    Instant.ofEpochMilli(end).atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                    end - submitTime);
+            writtenTemplates.add(a.getName()+b.getName());
+        }
     }
 
-    private void addFuture(File a, File b, long start, CompletableFuture<String> bisimFuture) {
+    private void addFuture(File a, File b, long start, CompletableFuture<String> bisimFuture, int rest) {
+        String key = a.getName()+b.getName();
         futures.add(
                 bisimFuture.thenAcceptAsync(bisimilar -> {
-                    long end = System.nanoTime();
-                    writeResultRow(
-                            a.getName(),
-                            b.getName(),
-                            String.valueOf(bisimilar),
-                            Instant.ofEpochMilli(start).atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                            Instant.ofEpochMilli(end).atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                            end - start
-                    );
+                    if (!writtenTemplates.contains(key) && (rest <= 0 || bisimilar.equals("false"))) {
+                        //System.out.println("MAYBE WRITING");
+                        long end = System.nanoTime();
+                        //if (a.getName().contains("ventilator") || b.getName().contains("ventilator"))
+                        writeResultRow(
+                                a.getName(),
+                                b.getName(),
+                                String.valueOf(bisimilar),
+                                Instant.ofEpochMilli(start).atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                                Instant.ofEpochMilli(end).atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                                end - start
+                        );
+
+                        writtenTemplates.add(a.getName()+b.getName());
+                    }
                 })
         );
     }
@@ -130,24 +146,28 @@ public class BisimRunner {
         Random rand = new Random();
         ProcessBuilder processBuilder = new ProcessBuilder(
                 pathToVerifyTA,
-                "-t", "0",
+               // "-t", "0",
                 "-r", Integer.toString(rand.nextInt()),
                 "-q", model.getAbsolutePath()
-        );
+        ).redirectErrorStream(true);
 
-        Process process = null;
+        Process process;
         try {
             process = processBuilder.start();
-            process.waitFor(100, TimeUnit.MINUTES);
+            //
+            // logger.info("Waiting verifyta {}", model.getAbsolutePath());
+            if (!process.waitFor(10, TimeUnit.SECONDS)) {
+               logger.info("Nothing!");
+                //process.destroy();
+                //return true;
+            }
         } catch (IOException | InterruptedException e) {
-            logger.error("Error startind and/or waiting for process with model {}.",model.getName(),e);
+            logger.error("Error starting and/or waiting for process with model {}.",model.getName(),e);
             throw new RuntimeException(e);
         }
-
-
-        String output = null;
+        String output;
         try {
-            output = new String(process.getErrorStream().readAllBytes());
+            output = new String(process.getInputStream().readAllBytes());
         } catch (IOException e) {
             logger.error("Error while reading verifyta's output with model {}.",model.getName(),e);
             throw new RuntimeException(e);
@@ -156,7 +176,7 @@ public class BisimRunner {
             logger.error("Acquired empty string when reading verifyta.");
             return false;
         }
-
+        process.destroy();
         return !output.contains("NOT satisfied") && !output.contains("MAY be satisfied");
     }
 }

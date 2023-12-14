@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.*;
 import java.util.function.Supplier;
 
-public class TraceSupplier{
+public class TraceSupplier implements Supplier<String[]>{
     private final File model1, model2;
     private final String strategy, propDir;
     private final String tracesDir;
@@ -24,7 +24,7 @@ public class TraceSupplier{
 
 
     /**
-     *
+     * @Override
      * @return String[] representing a row to be written in the traces csv.
      */
     public String[] get() {
